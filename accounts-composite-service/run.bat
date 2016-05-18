@@ -1,0 +1,1 @@
+mvn install spring-boot:run -Drun.jvmArguments='-Dserver.port=8084'  > D:/log/accounts-composite-server.log
