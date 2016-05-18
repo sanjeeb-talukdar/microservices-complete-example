@@ -7,12 +7,13 @@
 	<artifactId>microservices-demo</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Microservices Demo Applications</name>
+	<name>microservices-demo</name>
 
 	<modules>
 		<module>config-server</module>
 		<module>discovery-server</module>
 		<module>edge-server</module>
+		<module>oauth2-jwt-server</module>
 		<module>accounts-core-service</module>
 		<module>accounts-composite-service</module>
 		<module>payments-core-service</module>
