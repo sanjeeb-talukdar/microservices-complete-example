@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: discovery-server
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888           
+
+info:
+  component: Discovery Server Eureka (Service Registry)
+  
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+server:
+  port: 8761
+
+management:
+  port: 8994
+
+# Defines the Eureka server that is used by the Netflix OSS components to use as the registry
+# for server discovery
+eureka:
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka    
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+      
+logging:
+  level: 
+    com.netflix.discovery: 'TRACE'
+    org.springframework.cloud: 'TRACE'
+    org.springframework.boot: 'TRACE'
+    org.springframework.context: 'TRACE'
+    org.springframework.integration: 'TRACE'
+
+      
+      
+    
