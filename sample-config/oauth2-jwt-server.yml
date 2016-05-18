@@ -1,18 +1,13 @@
 spring:
-  profiles:
-    active: native
+  application:
+    name: oauth2-jwt-server
   cloud:
     config:
-      server:
-        git:
-          uri: 
-        native:
-          search-locations: file:///../sample-config
-  application:
-    name: config-server    
-  
+      enabled: true
+      uri: http://localhost:8888           
+
 info:
-  component: String Cloud Config Server
+  component: Oauth2 JWT Authentication Server
   
 endpoints:
   restart:
@@ -23,22 +18,25 @@ endpoints:
     sensitive: false
 
 server:
-  port: 8888
+  port: 9999
+  contextPath: /auth
 
-management:
-  port: 8995
-
+security:
+  user:
+    name: maybank
+    password: password
+     
 eureka:
   client:
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://localhost:8761/eureka/
   instance:
     leaseRenewalIntervalInSeconds: 10
     statusPageUrlPath: /info
     healthCheckUrlPath: /health
     metadataMap:
-      instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
       
 logging:
   level: 
@@ -47,6 +45,3 @@ logging:
     org.springframework.boot: 'TRACE'
     org.springframework.context: 'TRACE'
     org.springframework.integration: 'TRACE'
- 
-  
-      

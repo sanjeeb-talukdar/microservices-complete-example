@@ -5,8 +5,12 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
@@ -33,6 +37,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Controller
 @SessionAttributes("authorizationRequest")
 @EnableResourceServer
+@EnableDiscoveryClient
+@EnableAutoConfiguration
+@ComponentScan
+@EnableHystrix
 public class AuthserverApplication extends WebMvcConfigurerAdapter {
 
 	@RequestMapping("/user")
@@ -61,12 +69,9 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
-			http
-				.formLogin().loginPage("/login").permitAll()
-			.and()
-				.requestMatchers().antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access")
-			.and()
-				.authorizeRequests().anyRequest().authenticated();
+			http.formLogin().loginPage("/login").permitAll().and().requestMatchers()
+					.antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access").and().authorizeRequests()
+					.anyRequest().authenticated();
 			// @formatter:on
 		}
 
@@ -78,8 +83,7 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
 
 	@Configuration
 	@EnableAuthorizationServer
-	protected static class OAuth2AuthorizationConfig extends
-			AuthorizationServerConfigurerAdapter {
+	protected static class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
 		@Autowired
 		private AuthenticationManager authenticationManager;
@@ -87,8 +91,7 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
 		@Bean
 		public JwtAccessTokenConverter jwtAccessTokenConverter() {
 			JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-			KeyPair keyPair = new KeyStoreKeyFactory(
-					new ClassPathResource("keystore.jks"), "foobar".toCharArray())
+			KeyPair keyPair = new KeyStoreKeyFactory(new ClassPathResource("keystore.jks"), "foobar".toCharArray())
 					.getKeyPair("test");
 			converter.setKeyPair(keyPair);
 			return converter;
@@ -96,25 +99,19 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
 
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-			clients.inMemory()
-					.withClient("acme")
-					.secret("acmesecret")
-					.authorizedGrantTypes("authorization_code", "refresh_token",
-							"password").scopes("openid");
+			clients.inMemory().withClient("maybank-client").secret("maybank-client-secret")
+					.authorizedGrantTypes("authorization_code", "refresh_token", "access_token", "password")
+					.scopes("openid");
 		}
 
 		@Override
-		public void configure(AuthorizationServerEndpointsConfigurer endpoints)
-				throws Exception {
-			endpoints.authenticationManager(authenticationManager).accessTokenConverter(
-					jwtAccessTokenConverter());
+		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+			endpoints.authenticationManager(authenticationManager).accessTokenConverter(jwtAccessTokenConverter());
 		}
 
 		@Override
-		public void configure(AuthorizationServerSecurityConfigurer oauthServer)
-				throws Exception {
-			oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess(
-					"isAuthenticated()");
+		public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+			oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
 		}
 
 	}
