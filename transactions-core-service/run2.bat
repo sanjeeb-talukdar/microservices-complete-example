@@ -1,0 +1,1 @@
+mvn install spring-boot:run -Drun.jvmArguments='-Dserver.port=8086'  > D:/log/transcation-core-server2.log 
