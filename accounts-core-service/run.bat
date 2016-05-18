@@ -1,0 +1,1 @@
+mvn install spring-boot:run -Drun.jvmArguments='-Dserver.port=8186' > D:/log/accounts-core-server.log
