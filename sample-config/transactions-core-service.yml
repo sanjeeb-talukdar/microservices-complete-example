@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: transactions-core-service
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888           
+
+info:
+  component: Transactions Core Service
+  
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+      
+logging:
+  level: 
+    com.netflix.discovery: 'TRACE'
+    org.springframework.cloud: 'TRACE'
+    org.springframework.boot: 'TRACE'
+    org.springframework.context: 'TRACE'
+    org.springframework.integration: 'TRACE'
