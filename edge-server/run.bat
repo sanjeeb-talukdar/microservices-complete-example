@@ -1,0 +1,1 @@
+mvn install spring-boot:run > D:/log/edge-server.log
