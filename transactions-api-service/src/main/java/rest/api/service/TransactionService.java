@@ -5,7 +5,7 @@ import rest.api.model.TransactionCollectionResponse;
 
 public interface TransactionService {
 
-	public Transaction getTransactionDetail(String accountNumber, long transactionId);
+	public Transaction transactionDetail(String accountNumber, long transactionId);
 	
-	public TransactionCollectionResponse getTransactions(String accountId);
+	public TransactionCollectionResponse listTransactions4Account(String accountId);
 }

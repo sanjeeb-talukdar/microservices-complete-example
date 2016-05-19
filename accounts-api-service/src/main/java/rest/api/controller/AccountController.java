@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import rest.api.model.AccountComposite;
@@ -18,10 +17,9 @@ public class AccountController {
 	private AccountService accoutService;
 
 	@RequestMapping(value="/accounts", method = RequestMethod.GET, headers = "Accept=application/json")
-    public AccountCompositeCollection getAccountComposites(
-    		@RequestParam(value="customerNumber", defaultValue="123") String customerNumber) {
+    public AccountCompositeCollection getAccountComposites() {
     	
-		AccountCompositeCollection accountCompositeCollection = accoutService.getAccountComposites(customerNumber);
+		AccountCompositeCollection accountCompositeCollection = accoutService.listAllAccounts();
     	return accountCompositeCollection;
     }
 	
@@ -29,7 +27,7 @@ public class AccountController {
     public AccountComposite getAccountComposite(
     		@PathVariable("accountNumber") String accountNumber) {
     	
-		AccountComposite accountComposite = accoutService.getAccountComposite(accountNumber);
+		AccountComposite accountComposite = accoutService.accountDetails(accountNumber);
     	return accountComposite;
     }
     

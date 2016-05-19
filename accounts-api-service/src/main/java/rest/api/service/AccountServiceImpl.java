@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.Environment;
@@ -21,6 +22,7 @@ import rest.api.model.PaymentDetail;
 public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
+	@Qualifier("restTemplate")
 	private RestTemplate accountRestTemplate;
 	@Autowired
 	private DiscoveryClient client;
@@ -32,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "1000") })
 	@Override
-	public AccountCompositeCollection getAccountComposites(String customerId) {
+	public AccountCompositeCollection listAllAccounts() {
 		AccountCompositeCollection accountCompositeCollection = accountRestTemplate.getForObject("http://accounts-composite-service/accounts", AccountCompositeCollection.class);
 		return accountCompositeCollection;
 	}
@@ -42,13 +44,13 @@ public class AccountServiceImpl implements AccountService {
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "1000") })
 	@Override
-	public AccountComposite getAccountComposite(String accountNumber) {
+	public AccountComposite accountDetails(String accountNumber) {
 		AccountComposite accountComposite = accountRestTemplate.getForObject("http://accounts-composite-service/accounts/"+accountNumber, AccountComposite.class);
 		return accountComposite;
 	}
 	
 	@SuppressWarnings("unused")
-	private AccountCompositeCollection getFallbackAccounts(String customerId) {
+	private AccountCompositeCollection getFallbackAccounts() {
 		ServiceInstance localInstance = client.getLocalServiceInstance();
 		String str = environment.getProperty("spring.application.name") + ":" + localInstance.getServiceId() + ":"
 				+ localInstance.getHost() + ":" + localInstance.getPort();

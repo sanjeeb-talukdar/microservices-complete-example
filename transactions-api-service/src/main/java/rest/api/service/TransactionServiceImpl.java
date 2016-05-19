@@ -46,7 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "1000") })
 	@Override
-	public Transaction getTransactionDetail(String accountNumber, long transactionId) {
+	public Transaction transactionDetail(String accountNumber, long transactionId) {
 		return transactionsCoreService.getTransactionDetail(accountNumber, transactionId);
 	}
 
@@ -55,7 +55,7 @@ public class TransactionServiceImpl implements TransactionService {
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "1000") })
 	@Override
-	public TransactionCollectionResponse getTransactions(String accountNumber) {
+	public TransactionCollectionResponse listTransactions4Account(String accountNumber) {
 		return transactionsCoreService.getTransactions(accountNumber);
 	}
 

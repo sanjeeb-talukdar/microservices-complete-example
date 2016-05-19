@@ -22,7 +22,7 @@ public class TransactionController {
     	
     	/*TransactionCollectionResponse response = new TransactionCollectionResponse();
     	response.setTransactions(transactionService.getTransactions(accountNumber));*/
-    	return transactionService.getTransactions(accountNumber);
+    	return transactionService.listTransactions4Account(accountNumber);
     }
     
     @RequestMapping("/accounts/{accountNumber}/transactions/{transactionId}")
@@ -30,7 +30,7 @@ public class TransactionController {
     		@PathVariable("accountNumber") String accountNumber,
     		@PathVariable("transactionId") long transactionId
     		) {
-        return transactionService.getTransactionDetail(accountNumber, transactionId);
+        return transactionService.transactionDetail(accountNumber, transactionId);
     }
     
 }

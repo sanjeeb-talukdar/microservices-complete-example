@@ -11,6 +11,8 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @EnableCircuitBreaker
@@ -22,7 +24,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableHystrix
 @EnableFeignClients
 @EnableResourceServer
-public class TransactionsApiServiceApplication {
+public class TransactionsApiServiceApplication extends WebSecurityConfigurerAdapter {
 	public static void main(String[] args) {
 		SpringApplication.run(TransactionsApiServiceApplication.class, args);
 	}
@@ -31,5 +33,12 @@ public class TransactionsApiServiceApplication {
 	public void setEnvironment(Environment e) {
 		System.out.println("####### Environment:" + e.getProperty("configuration.projectName"));
 	}
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+	    web.ignoring().antMatchers("/hystrix.stream", "/info", "/health");
+	}
+
+	
 
 }
