@@ -18,7 +18,7 @@ endpoints:
     sensitive: false
 
 server:
-  port: 8765
+  port: 8785
 
 management:
   port: 8993

@@ -14,6 +14,7 @@
 		<module>discovery-server</module>
 		<module>edge-server</module>
 		<module>oauth2-jwt-server</module>
+		<module>edge-zuul-sso-ui-server</module>
 		<module>accounts-core-service</module>
 		<module>accounts-composite-service</module>
 		<module>payments-core-service</module>

@@ -37,8 +37,7 @@ public class ApplicationTests {
 
 	@Test
 	public void homePageProtected() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/uaa/", String.class);
+		ResponseEntity<String> response = template.getForEntity("http://localhost:" + port + "/", String.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		String auth = response.getHeaders().getFirst("WWW-Authenticate");
 		assertTrue("Wrong header: " + auth, auth.startsWith("Bearer realm=\""));
@@ -46,8 +45,8 @@ public class ApplicationTests {
 
 	@Test
 	public void userEndpointProtected() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/uaa/user", String.class);
+		ResponseEntity<String> response = template.getForEntity("http://localhost:" + port + "/user",
+				String.class);
 		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
 		String auth = response.getHeaders().getFirst("WWW-Authenticate");
 		assertTrue("Wrong header: " + auth, auth.startsWith("Bearer realm=\""));
@@ -55,18 +54,17 @@ public class ApplicationTests {
 
 	@Test
 	public void authorizationRedirects() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/uaa/oauth/authorize", String.class);
+		ResponseEntity<String> response = template.getForEntity("http://localhost:" + port + "/oauth/authorize",
+				String.class);
 		assertEquals(HttpStatus.FOUND, response.getStatusCode());
 		String location = response.getHeaders().getFirst("Location");
-		assertTrue("Wrong header: " + location,
-				location.startsWith("http://localhost:" + port + "/uaa/login"));
+		assertTrue("Wrong header: " + location, location.startsWith("http://localhost:" + port + "/login"));
 	}
 
 	@Test
 	public void loginSucceeds() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/uaa/login", String.class);
+		ResponseEntity<String> response = template.getForEntity("http://localhost:" + port + "/login",
+				String.class);
 		String csrf = getCsrf(response.getBody());
 		MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
 		form.set("username", "user");
@@ -74,17 +72,15 @@ public class ApplicationTests {
 		form.set("_csrf", csrf);
 		HttpHeaders headers = new HttpHeaders();
 		headers.put("COOKIE", response.getHeaders().get("Set-Cookie"));
-		RequestEntity<MultiValueMap<String, String>> request = new RequestEntity<MultiValueMap<String, String>>(
-				form, headers, HttpMethod.POST, URI.create("http://localhost:" + port
-						+ "/uaa/login"));
+		RequestEntity<MultiValueMap<String, String>> request = new RequestEntity<MultiValueMap<String, String>>(form,
+				headers, HttpMethod.POST, URI.create("http://localhost:" + port + "/login"));
 		ResponseEntity<Void> location = template.exchange(request, Void.class);
-		assertEquals("http://localhost:" + port + "/uaa/",
-				location.getHeaders().getFirst("Location"));
+		System.out.println("******************* " + location.getHeaders());
+		assertEquals("http://localhost:" + port + "/", location.getHeaders().getFirst("Location"));
 	}
 
 	private String getCsrf(String soup) {
-		Matcher matcher = Pattern.compile("(?s).*name=\"_csrf\".*?value=\"([^\"]+).*")
-				.matcher(soup);
+		Matcher matcher = Pattern.compile("(?s).*name=\"_csrf\".*?value=\"([^\"]+).*").matcher(soup);
 		if (matcher.matches()) {
 			return matcher.group(1);
 		}

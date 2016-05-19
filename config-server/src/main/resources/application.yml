@@ -7,7 +7,7 @@ spring:
         git:
           uri: 
         native:
-          search-locations: file:///../sample-config
+          search-locations: file:///D:/Projects/MayBank/microservices-complete-example/sample-config
   application:
     name: config-server    
   

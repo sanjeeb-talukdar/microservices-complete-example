@@ -19,11 +19,9 @@ endpoints:
 
 server:
   port: 9999
-  contextPath: /auth
 
 security:
   user:
-    name: maybank
     password: password
      
 eureka:
