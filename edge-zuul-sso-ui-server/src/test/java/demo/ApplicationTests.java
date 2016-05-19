@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = UiApplication.class)
 @WebAppConfiguration
-@IntegrationTest("server.port:0")
+@IntegrationTest("server.port:9999")
 public class ApplicationTests {
 
 	@Value("${local.server.port}")
@@ -39,25 +39,25 @@ public class ApplicationTests {
 	@Test
 	public void userEndpointProtected() {
 		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/auth/user", String.class);
+				+ port + "/user", String.class);
 		assertEquals(HttpStatus.FOUND, response.getStatusCode());
-		assertEquals("http://localhost:" + port + "/auth/login", response.getHeaders()
+		assertEquals("http://localhost:" + port + "/login", response.getHeaders()
 				.getLocation().toString());
 	}
 
 	@Test
 	public void resourceEndpointProtected() {
 		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/auth/user", String.class);
+				+ port + "/user", String.class);
 		assertEquals(HttpStatus.FOUND, response.getStatusCode());
-		assertEquals("http://localhost:" + port + "/auth/login", response.getHeaders()
+		assertEquals("http://localhost:" + port + "/login", response.getHeaders()
 				.getLocation().toString());
 	}
 
 	@Test
 	public void loginRedirects() {
 		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/auth/login", String.class);
+				+ port + "/login", String.class);
 		assertEquals(HttpStatus.FOUND, response.getStatusCode());
 		String location = response.getHeaders().getFirst("Location");
 		assertTrue("Wrong location: " + location, location.startsWith(authorizeUri));

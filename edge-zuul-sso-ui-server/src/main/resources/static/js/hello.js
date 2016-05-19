@@ -38,8 +38,10 @@ function($rootScope, $http, $location, $route) {
 	}
 
 }).controller('home', function($http) {
-	var self = this;
+	var self = this;	
 	$http.get('auth/user').then(function(response) {
-		self.greeting = response.data;
+		self.greeting = JSON.stringify(response.data, undefined, 4);
 	})
 });
+
+

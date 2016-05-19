@@ -11,6 +11,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @EnableCircuitBreaker
 @EnableAutoConfiguration
@@ -20,6 +21,7 @@ import org.springframework.core.env.Environment;
 @Configuration
 @EnableHystrix
 @EnableFeignClients
+@EnableResourceServer
 public class TransactionsApiServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TransactionsApiServiceApplication.class, args);

@@ -27,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AuthserverApplication.class)
 @WebAppConfiguration
-@IntegrationTest("server.port:0")
+@IntegrationTest("server.port:9991")
 public class ApplicationTests {
 
 	@Value("${local.server.port}")

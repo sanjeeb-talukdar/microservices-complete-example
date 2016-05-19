@@ -44,6 +44,7 @@ logging:
     org.springframework.boot: 'TRACE'
     org.springframework.context: 'TRACE'
     org.springframework.integration: 'TRACE'
+    org.springframework: 'TRACE'
     
 zuul:
 #  ignoredServices: "*"
@@ -59,8 +60,8 @@ security:
     password: none
   oauth2:
     client:
-      accessTokenUri: http://localhost:9991/auth/oauth/token
-      userAuthorizationUri: http://localhost:9991/auth/oauth/authorize
+      accessTokenUri: http://localhost:9999/oauth/token
+      userAuthorizationUri: http://localhost:9999/oauth/authorize
       clientId: maybank-client
       clientSecret: maybank-client-secret
     resource:

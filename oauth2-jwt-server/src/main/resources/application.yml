@@ -43,3 +43,4 @@ logging:
     org.springframework.boot: 'TRACE'
     org.springframework.context: 'TRACE'
     org.springframework.integration: 'TRACE'
+    org.springframework: 'TRACE'
