@@ -1,7 +1,15 @@
 <h1>Greeting</h1>
 <div ng-show="authenticated">
-	<p>The content is</p>
-	<p>{{controller.greeting}}</p>
+	<p>User Details</p>
+	<pre pretty-json="controller.user"  />
+	<p>All Account Listing</p>
+	<pre pretty-json="controller.accounts"  />
+	<p>Account Details For Account (1)</p>
+	<pre pretty-json="controller.accountDetails"  />
+	<p>Transactions For Account (1)</p>
+	<pre pretty-json="controller.accountTransactions"  />
+	<p>Transaction Details For Account (1) Transaction (1)</p>
+	<pre pretty-json="controller.accountTransactionDetails"  />
 </div>
 <div ng-show="!authenticated">
 	<p>Login to see your greeting</p>
