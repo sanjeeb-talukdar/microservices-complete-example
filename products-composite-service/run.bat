@@ -1,0 +1,1 @@
+mvn install spring-boot:run > D:\sanjeeb-product-catalogue\logs\products-composite-service.log

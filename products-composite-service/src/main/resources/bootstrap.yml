@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: products-composite-service
+  
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888       
+      

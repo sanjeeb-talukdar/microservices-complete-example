@@ -1,0 +1,18 @@
+server:
+  port: 8086
+  
+info:
+  component: Products Core Service
+
+logging:
+  level:
+    ROOT: TRACE
+    org.springframework.web: TRACE
+    org.springframework.cloud: TRACE
+    org.springframework.boot: TRACE
+    org.springframework: TRACE
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

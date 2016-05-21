@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: pricing-core-service
+
+info:
+  component: Pricing Core Service
+
+server:
+  port: 8085
+
+logging:
+  level:
+    ROOT: TRACE
+    org.springframework.web: TRACE
+    org.springframework.cloud: TRACE
+    org.springframework.boot: TRACE
+    org.springframework: TRACE

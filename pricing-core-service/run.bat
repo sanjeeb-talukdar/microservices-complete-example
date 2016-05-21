@@ -1,0 +1,1 @@
+mvn install spring-boot:run > D:\logs\pricing-core-service.log
