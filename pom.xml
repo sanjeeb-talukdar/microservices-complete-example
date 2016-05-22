@@ -10,6 +10,10 @@
 	<name>microservices-demo</name>
 
 	<modules>
+		<module>pricing-core-service</module>
+		<module>products-core-service</module>
+		<module>products-composite-service</module>
+		<module>products-api-service</module>
 		<module>config-server</module>
 		<module>discovery-server</module>
 		<module>edge-server</module>
@@ -21,10 +25,6 @@
 		<module>transactions-api-service</module>
 		<module>transactions-core-service</module>
 		<module>accounts-api-service</module>
-		<module>pricing-core-service</module>
-		<module>products-core-service</module>
-		<module>products-composite-service</module>
-		<module>products-api-service</module>
 		<module>monitor-dashboard</module>
 		<module>turbine-server</module>
 	</modules>
@@ -82,7 +82,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
-        
+        <dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-hal-browser</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

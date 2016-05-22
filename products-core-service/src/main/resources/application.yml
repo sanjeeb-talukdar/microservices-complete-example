@@ -6,11 +6,11 @@ info:
 
 logging:
   level:
-    ROOT: TRACE
-    org.springframework.web: TRACE
-    org.springframework.cloud: TRACE
-    org.springframework.boot: TRACE
-    org.springframework: TRACE
+    ROOT: 'ERROR'
+    org.springframework.web: OFF
+    org.springframework.cloud: OFF
+    org.springframework.boot: OFF
+    org.springframework: OFF
 
 eureka:
   client:

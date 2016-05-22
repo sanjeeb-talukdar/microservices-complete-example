@@ -46,7 +46,7 @@ public class ServiceApplication extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	    web.ignoring().antMatchers("/hystrix.stream", "/info", "/health");
+	    web.ignoring().antMatchers("/hystrix.stream", "/info", "/health", "/console/**", "/browser/**");
 	}
 
 

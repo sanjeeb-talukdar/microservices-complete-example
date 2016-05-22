@@ -1,0 +1,2 @@
+insert into product (product_id, product_version, product_name, product_description, product_tags, product_catalogue) values (1, 1, 'Casio G Shock', 'Casion Exclusive G Shock', 'Wristwatches', 'Electronics');
+insert into product (product_id, product_version, product_name, product_description, product_tags, product_catalogue) values (2, 1, 'Sony X00B2', 'Sony Bravia X Series', 'Home Theater', 'TV');
