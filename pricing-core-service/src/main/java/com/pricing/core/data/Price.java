@@ -77,12 +77,14 @@ public class Price implements Serializable {
 		this.price = price;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
-		result = prime * result + (int) (productId ^ (productId >>> 32));
+		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
 		return result;
 	}
 
@@ -97,7 +99,10 @@ public class Price implements Serializable {
 		Price other = (Price) obj;
 		if (currency != other.currency)
 			return false;
-		if (productId != other.productId)
+		if (productId == null) {
+			if (other.productId != null)
+				return false;
+		} else if (!productId.equals(other.productId))
 			return false;
 		return true;
 	}

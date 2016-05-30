@@ -84,8 +84,8 @@ public class CatalogueProductController {
 			Catalogue catalogue = response.getBody();
 			if (catalogue != null && !catalogue.getProducts().isEmpty()) {
 				ProductsUtil.attachPrice(catalogue.getProducts(), pricingService);
+				return new ResponseEntity<List<Product>>(new ArrayList<Product>(catalogue.getProducts()), HttpStatus.OK);
 			}
-			return new ResponseEntity<List<Product>>(new ArrayList<Product>(catalogue.getProducts()), HttpStatus.OK);
 		}
 		return new ResponseEntity<List<Product>>(HttpStatus.NOT_FOUND);
 
