@@ -11,5 +11,5 @@ import com.pricing.core.data.PriceId;
 
 @RepositoryRestResource(exported = false)
 public interface PriceRepository extends JpaRepository<Price, PriceId> {
-	List<Price> findByProductId(@Param ("productId") long productId);
+	List<Price> findByProductId(@Param ("productId") Long productId);
 }

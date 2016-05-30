@@ -117,13 +117,19 @@ public class ProductsApiController {
 
 	@RequestMapping(value = "/catalogue/{catalogueId}/product/{productId}/price/" , method = RequestMethod.POST)
 	public ResponseEntity<Void> createPrice(@PathVariable("catalogueId") int catalogueId,
-			@PathVariable("catalogueId") long productId, @RequestBody Price price) {
+			@PathVariable("productId") long productId, @RequestBody Price price) {
 		return productsCompositeService.createPrice(catalogueId, productId, price);
 	}
 
 	@RequestMapping(value = "/catalogue/{catalogueId}/product/{productId}/price/" , method = RequestMethod.GET)
-	public ResponseEntity<List<Price>> getPrice(@PathVariable("productId") int catalogueId,
+	public ResponseEntity<List<Price>> getPrice(@PathVariable("catalogueId") int catalogueId,
 			@PathVariable("productId") long productId){
 		return productsCompositeService.getPrice(catalogueId, productId);
+	}
+	
+	@RequestMapping(value = "/catalogue/{catalogueId}/product/{productId}/price/{currency}/" , method = RequestMethod.GET)
+	public ResponseEntity<Price> getPrice(@PathVariable("catalogueId") int catalogueId,
+			@PathVariable("productId") long productId, @PathVariable("currency") String currency) {
+		return productsCompositeService.getPrice(catalogueId, productId, currency);
 	}
 }

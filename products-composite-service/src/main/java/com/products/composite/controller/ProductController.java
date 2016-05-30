@@ -186,13 +186,14 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = { "/{productId}/price", "/{productId}/price/" }, method = RequestMethod.GET)
-	@HystrixCommand(fallbackMethod = "getPriceFallBack", commandProperties = {
+	@HystrixCommand(fallbackMethod = "getPricesFallBack", commandProperties = {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<List<Price>> getPrice(@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<List<Price>> getPrices(@PathVariable("productId") long productId,
+			UriComponentsBuilder ucBuilder) {
 		ResponseEntity<List<Price>> res = pricingService.get(productId);
 		if (res != null && HttpStatus.OK.equals(res.getStatusCode())) {
 			List<Price> products = res.getBody();
@@ -202,12 +203,41 @@ public class ProductController {
 	}
 
 	@SuppressWarnings("unused")
-	private ResponseEntity<Product> getPriceFallBack(@PathVariable("productId") long productId,
+	private ResponseEntity<List<Price>> getPricesFallBack(@PathVariable("productId") long productId,
 			UriComponentsBuilder ucBuilder) {
 		/** TODO Implement event driven plan B */
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("fallBack", "findByProductIdFallBack");
-		return new ResponseEntity<Product>(headers, HttpStatus.ACCEPTED);
+		headers.set("fallBack", "getPricesFallBack");
+		return new ResponseEntity<List<Price>>(headers, HttpStatus.ACCEPTED);
+	}
+
+	@RequestMapping(value = { "/{productId}/price/{currency}",
+			"/{productId}/price/{currency}/" }, method = RequestMethod.GET)
+	@HystrixCommand(fallbackMethod = "getPriceFallBack", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
+			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
+	public ResponseEntity<Price> getPrice(@PathVariable("productId") long productId,
+			@PathVariable("currency") String currency, UriComponentsBuilder ucBuilder) {
+		if (currency != null && !"".equals(currency.trim())) {
+			ResponseEntity<Price> res = pricingService.get(productId, currency.trim().toUpperCase());
+			if (res != null && HttpStatus.OK.equals(res.getStatusCode())) {
+				Price products = res.getBody();
+				return new ResponseEntity<Price>(products, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<Price>(HttpStatus.NOT_FOUND);
+	}
+
+	@SuppressWarnings("unused")
+	private ResponseEntity<Price> getPriceFallBack(@PathVariable("productId") long productId,
+			@PathVariable("currency") String currency, UriComponentsBuilder ucBuilder) {
+		/** TODO Implement event driven plan B */
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("fallBack", "getPriceFallBack");
+		return new ResponseEntity<Price>(headers, HttpStatus.ACCEPTED);
 	}
 
 }

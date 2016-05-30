@@ -111,12 +111,18 @@ public interface ProductsCompositeService {
 			"accept= application/json", "content-type= application/json", "accept-encoding= gzip, deflate",
 			"accept-language= en-US,en;q=0.8" })
 	public ResponseEntity<Void> createPrice(@PathVariable("catalogueId") int catalogueId,
-			@PathVariable("catalogueId") long productId, @RequestBody Price price);
+			@PathVariable("productId") long productId, @RequestBody Price price);
 
 	@RequestMapping(value = "/catalogue/{catalogueId}/product/{productId}/price/", method = RequestMethod.GET, headers = {
 			"accept= application/json", "content-type= application/json", "accept-encoding= gzip, deflate",
 			"accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<List<Price>> getPrice(@PathVariable("productId") int catalogueId,
+	public ResponseEntity<List<Price>> getPrice(@PathVariable("catalogueId") int catalogueId,
 			@PathVariable("productId") long productId);
+
+	@RequestMapping(value = "/catalogue/{catalogueId}/product/{productId}/price/{currency}/", method = RequestMethod.GET, headers = {
+			"accept= application/json", "content-type= application/json", "accept-encoding= gzip, deflate",
+			"accept-language= en-US,en;q=0.8" })
+	public ResponseEntity<Price> getPrice(@PathVariable("catalogueId") int catalogueId,
+			@PathVariable("productId") long productId, @PathVariable("currency") String currency);
 
 }

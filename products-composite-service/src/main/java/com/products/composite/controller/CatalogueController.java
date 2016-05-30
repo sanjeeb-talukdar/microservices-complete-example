@@ -67,9 +67,8 @@ public class CatalogueController {
 	}
 
 	@SuppressWarnings("unused")
-	private ResponseEntity<List<Catalogue>> getCataloguesFallBack(
-			@RequestParam(name = "name", required = false) String name,
-			@RequestParam(name = "attachPrice", required = false, defaultValue = "false") boolean attachPrice,
+	private ResponseEntity<List<Catalogue>> getCataloguesFallBack(@RequestParam(name = "name", required = false) String name,
+			@RequestParam(name = "attachPrice", required = false, defaultValue = "true") boolean attachPrice,
 			UriComponentsBuilder ucBuilder) {
 		/** TODO Implement event driven plan B */
 		HttpHeaders headers = new HttpHeaders();
@@ -118,8 +117,7 @@ public class CatalogueController {
 	}
 
 	@SuppressWarnings("unused")
-	private ResponseEntity<Void> createCatalogueFallBack(@RequestBody Catalogue catalogue,
-			UriComponentsBuilder ucBuilder) {
+	private ResponseEntity<Void> createCatalogueFallBack(@RequestBody Catalogue catalogue, UriComponentsBuilder ucBuilder) {
 		/** TODO Implement event driven plan B */
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("fallBack", "createCatalogueFallBack");

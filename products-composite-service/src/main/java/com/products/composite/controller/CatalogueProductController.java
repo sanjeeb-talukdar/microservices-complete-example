@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -62,7 +61,7 @@ public class CatalogueProductController {
 	}
 
 	@SuppressWarnings("unused")
-	private ResponseEntity<Void> createProductFallBack(@PathVariable("catalogueId") int id,
+	private ResponseEntity<Void> createProductFallBack(@PathVariable("catalogueId") int catalogueId,
 			@RequestBody Product product, UriComponentsBuilder ucBuilder) {
 		/** TODO Implement event driven plan B */
 		HttpHeaders headers = new HttpHeaders();
@@ -91,23 +90,33 @@ public class CatalogueProductController {
 		return new ResponseEntity<List<Product>>(HttpStatus.NOT_FOUND);
 
 	}
+	
+	@SuppressWarnings("unused")
+	private ResponseEntity<List<Product>> getProductsFallBack(@PathVariable("catalogueId") int catalogueId,
+			UriComponentsBuilder ucBuilder) {
+		/** TODO Implement event driven plan B */
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("fallBack", "getProductsFallBack");
+		return new ResponseEntity<List<Product>>(headers, HttpStatus.FOUND);
+	}
 
 	@RequestMapping(value = { "/catalogue/{catalogueId}/product/{productId}",
 			"/catalogue/{catalogueId}/product/{productId}" }, method = RequestMethod.GET)
-	@HystrixCommand(fallbackMethod = "getProductsFallBack", commandProperties = {
+	@HystrixCommand(fallbackMethod = "getProductFallBack", commandProperties = {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Product> getProduct(@PathVariable("catalogueId") int catalogueId,@PathVariable("productId") long productId,
-			UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<Product> getProduct(@PathVariable("catalogueId") int catalogueId,
+			@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {
 		ResponseEntity<Catalogue> response = catalogueService.findById(catalogueId);
 		ResponseEntity<Product> response1 = productsService.findById(productId);
-		if (response != null && response1 != null && HttpStatus.OK.equals(response.getStatusCode()) && HttpStatus.OK.equals(response1.getStatusCode())) {
+		if (response != null && response1 != null && HttpStatus.OK.equals(response.getStatusCode())
+				&& HttpStatus.OK.equals(response1.getStatusCode())) {
 			Catalogue catalogue = response.getBody();
 			Product product = response1.getBody();
-			if(catalogue != null && catalogue.getProducts()!= null && catalogue.getProducts().contains(product)){
+			if (catalogue != null && catalogue.getProducts() != null && catalogue.getProducts().contains(product)) {
 				ProductsUtil.attachPrice(product, pricingService);
 			}
 			return new ResponseEntity<Product>(product, HttpStatus.OK);
@@ -116,15 +125,12 @@ public class CatalogueProductController {
 	}
 
 	@SuppressWarnings("unused")
-	private ResponseEntity<List<Product>> getProductsFallBack(@PathVariable("catalogueId") int catalogueId,
-			@RequestParam(name = "catalogue", required = false) String catalogue,
-			@RequestParam(name = "name", required = false) String name,
-			@RequestParam(name = "tag", required = false) String tag,
-			@RequestParam(name = "description", required = false) String description, UriComponentsBuilder ucBuilder) {
+	private ResponseEntity<Product> getProductFallBack(@PathVariable("catalogueId") int catalogueId,
+			@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {
 		/** TODO Implement event driven plan B */
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("fallBack", "getProductsFallBack");
-		return new ResponseEntity<List<Product>>(headers, HttpStatus.FOUND);
+		return new ResponseEntity<Product>(headers, HttpStatus.FOUND);
 	}
 
 	@RequestMapping(value = { "/catalogue/{catalogueId}/product/{productId}/price",
@@ -153,8 +159,8 @@ public class CatalogueProductController {
 	}
 
 	@SuppressWarnings("unused")
-	private ResponseEntity<Void> createPriceFallBack(@PathVariable("catalogueId") long productId,
-			@RequestBody Product product, UriComponentsBuilder ucBuilder) {
+	private ResponseEntity<Void> createPriceFallBack(@PathVariable("catalogueId") int catalogueId,
+			@PathVariable("catalogueId") long productId, @RequestBody Price price, UriComponentsBuilder ucBuilder) {
 		/** TODO Implement event driven plan B */
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("fallBack", "createPriceFallBack");
@@ -163,13 +169,13 @@ public class CatalogueProductController {
 
 	@RequestMapping(value = { "/catalogue/{catalogueId}/product/{productId}/price",
 			"/catalogue/{catalogueId}/product/{productId}/price/" }, method = RequestMethod.GET)
-	@HystrixCommand(fallbackMethod = "getPriceFallBack", commandProperties = {
+	@HystrixCommand(fallbackMethod = "getPricesFallBack", commandProperties = {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<List<Price>> getPrice(@PathVariable("productId") int catalogueId,
+	public ResponseEntity<List<Price>> getPrices(@PathVariable("catalogueId") int catalogueId,
 			@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {
 		ResponseEntity<List<Price>> res = pricingService.get(productId);
 		if (res != null && HttpStatus.OK.equals(res.getStatusCode())) {
@@ -178,13 +184,43 @@ public class CatalogueProductController {
 		}
 		return new ResponseEntity<List<Price>>(HttpStatus.NOT_FOUND);
 	}
-
+	
 	@SuppressWarnings("unused")
-	private ResponseEntity<Product> getPriceFallBack(@PathVariable("productId") long productId,
-			UriComponentsBuilder ucBuilder) {
+	private ResponseEntity<List<Price>> getPricesFallBack(@PathVariable("catalogueId") int catalogueId,
+			@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {
 		/** TODO Implement event driven plan B */
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("fallBack", "findByProductIdFallBack");
-		return new ResponseEntity<Product>(headers, HttpStatus.ACCEPTED);
+		headers.set("fallBack", "getPricesFallBack");
+		return new ResponseEntity<List<Price>>(headers, HttpStatus.ACCEPTED);
 	}
+
+	@RequestMapping(value = { "/catalogue/{catalogueId}/product/{productId}/price/{currency}",
+			"/catalogue/{catalogueId}/product/{productId}/price/{currency}/" }, method = RequestMethod.GET)
+	@HystrixCommand(fallbackMethod = "getPriceFallBack", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
+			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
+	public ResponseEntity<Price> getPrice(@PathVariable("catalogueId") int catalogueId,
+			@PathVariable("productId") long productId, @PathVariable("currency") String currency, UriComponentsBuilder ucBuilder) {
+		if (currency != null && !"".equalsIgnoreCase(currency.trim())) {
+			ResponseEntity<Price> price = pricingService.get(productId,currency.trim().toUpperCase());
+			if (price == null) {
+				return new ResponseEntity<Price>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<Price>(price.getBody(), HttpStatus.OK);
+		}
+		return new ResponseEntity<Price>(HttpStatus.NOT_FOUND);
+	}
+	
+	@SuppressWarnings("unused")
+	private ResponseEntity<Price> getPriceFallBack(@PathVariable("catalogueId") int catalogueId,
+	@PathVariable("productId") long productId, @PathVariable("currency") String currency, UriComponentsBuilder ucBuilder) {
+		/** TODO Implement event driven plan B */
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("fallBack", "getPriceFallBack");
+		return new ResponseEntity<Price>(headers, HttpStatus.ACCEPTED);
+	}
+	
 }

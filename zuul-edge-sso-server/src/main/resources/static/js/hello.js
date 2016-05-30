@@ -54,12 +54,12 @@ angular.module('hello', [ 'ngRoute', 'ngSanitize', 'ngPrettyJson' ]).config(func
 		});
 	};
 	self.getCatalogues = function() {
-		$http.get('product-catalogue/catalogue').then(function(response) {
+		$http.get('product-catalogue/catalogue/').then(function(response) {
 			self.catalogue = JSON.stringify(response.data, undefined, 4);
 		});
 	};
 	self.getProducts = function() {
-		$http.get('product-catalogue/product').then(function(response) {
+		$http.get('product-catalogue/product/').then(function(response) {
 			self.products = JSON.stringify(response.data, undefined, 4);
 		});
 	};
