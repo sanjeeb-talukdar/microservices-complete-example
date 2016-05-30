@@ -74,8 +74,8 @@ security:
     password: none
   oauth2:
     client:
-      accessTokenUri: http://sansoft-oauth2-jwt-identity-server.us-east-1.elasticbeanstalk.com/oauth/token
-      userAuthorizationUri: http://sansoft-oauth2-jwt-identity-server.us-east-1.elasticbeanstalk.com/oauth/authorize
+      accessTokenUri: http://ec2-52-23-235-69.compute-1.amazonaws.com/oauth/token
+      userAuthorizationUri: http://ec2-52-23-235-69.compute-1.amazonaws.com/oauth/authorize
       clientId: maybank-client
       clientSecret: maybank-client-secret
     resource:
