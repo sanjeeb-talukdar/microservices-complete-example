@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>accounts-composite-service</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
-    <name>accounts-core-service</name>
-    <description>Accounts Core Service</description>
+    <name>accounts-composite-service</name>
+    <description>Accounts Composite Service</description>
 
 	<parent>
 		<groupId>microservices</groupId>

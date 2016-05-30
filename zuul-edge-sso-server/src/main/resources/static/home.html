@@ -1,0 +1,20 @@
+<h1>Greeting</h1>
+<div ng-show="authenticated">
+	<p><button ng-click="controller.getUser()"> Show! User Details </button></p>
+	<pre pretty-json="controller.user"  />
+	<p><button ng-click="controller.getCatalogues()"> Show! Catalogue Details </button></p>
+	<pre pretty-json="controller.catalogue"  />
+	<p><button ng-click="controller.getProducts()"> Show! Product Details </button></p>
+	<pre pretty-json="controller.products"  />
+	<p><button ng-click="controller.getAccounts()"> Show! All Account Listing </button></p>
+	<pre pretty-json="controller.accounts"  />
+	<p><button ng-click="controller.getAccountDetails()"> Show! Account Details For Account (1) </button></p>
+	<pre pretty-json="controller.accountDetails"  />
+	<p><button ng-click="controller.getAccountTransactions()"> Show! Transactions For Account (1) </button></p>
+	<pre pretty-json="controller.accountTransactions"  />
+	<p><button ng-click="controller.getAccountTransactionDetails()"> Show! Transaction Details For Account (1) Transaction (1) </button></p>
+	<pre pretty-json="controller.accountTransactionDetails"  />
+</div>
+<div ng-show="!authenticated">
+	<p>Login to see your greeting</p>
+</div>

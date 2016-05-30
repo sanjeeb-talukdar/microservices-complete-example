@@ -1,0 +1,90 @@
+spring:
+  profiles:
+    active: cloud
+  application:
+    name: eureka-discovery-server
+  cloud:
+    config:
+      enabled: true
+      uri: http://ec2-52-72-100-22.compute-1.amazonaws.com/      
+
+info:
+  component: Discovery Server Eureka (Service Registry)
+  
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+#server:
+#  port: 80
+
+#management:
+#  port: 8994
+
+# Defines the Eureka server that is used by the Netflix OSS components to use as the registry
+# for server discovery
+
+## -----------------------
+## AWS deployment examples
+##------------------------
+
+# for AWS deployments, availability zones can be specified to take advantage of eureka client zone affinity by
+# specifying the following configurations.
+# for example, if the deployment is in us-east-1 and the available zones are us-east-1a, us-east-1b and us-east-1c,
+
+# define the region
+#eureka.region=us-east-1
+
+# notice that the region is specified as part of the config name
+#eureka.us-east-1.availabilityZones=us-east-1a,us-east-1b,us-east-1c
+
+# "eurekaServerPort" is whatever port your eureka servers are configured with
+#eureka.serviceUrl.us-east-1a=http://eurekaServerHostName:eurekaServerPort/eureka/v2
+#eureka.serviceUrl.us-east-1b=http://eurekaServerHostName:eurekaServerPort/eureka/v2
+#eureka.serviceUrl.us-east-1c=http://eurekaServerHostName:eurekaServerPort/eureka/v2
+
+# If shouldUseDns is set to true, the below is an example of how to configure eureka client to route to eureka servers,
+# assuming for example your DNS records are setup thus:
+# txt record: txt.mycompany.eureka.mydomain.com => "server1address" "server2address" "server3address"
+#eureka.shouldUseDns=true
+#eureka.eurekaServer.domainName=mydomain.com
+eureka:
+   awsAccessId: AKIAIXPIFMO634VRHDWA
+   awsSecretKey: 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
+   name: eureka-discovery-server
+   shouldUseDns: true
+   preferSameZone: true
+ #  vipAddress: ec2-52-203-244-180.compute-1.amazonaws.com
+   region:
+     us-east-1
+   us-east-1:
+      availabilityZones: us-east-1a
+   serviceUrl:
+      us-east-1a: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+   instance:   
+ #    hostname: ip-172-31-58-121.ec2.internal
+     leaseRenewalIntervalInSeconds: 10
+     statusPageUrlPath: /info
+     healthCheckUrlPath: /health
+#     metadataMap:
+#      instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+   client:
+     region: us-east-1
+     registerWithEureka: false
+     fetchRegistry: false
+     serviceUrl:
+       defaultZone: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka   
+   server:
+     waitTimeInMsWhenSyncEmpty: 0
+ 
+logging:
+  level:
+    ROOT: 'ERROR'
+    org.springframework.web: ERROR
+    org.springframework.cloud: ERROR
+    org.springframework.boot: ERROR
+    org.springframework: ERROR

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>transactions-api-service</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>transactions-api-service</name>
 	<description>Transactions API Service</description>

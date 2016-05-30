@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: zuul-edge-server
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888           
+
+info:
+  component: Edge Server Zuul (API Gateway)
+  
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+server:
+  port: 8785
+
+management:
+  port: 8993
+
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+      
+logging:
+  level: 
+    com.netflix.discovery: 'TRACE'
+    org.springframework.cloud: 'TRACE'
+    org.springframework.boot: 'TRACE'
+    org.springframework.context: 'TRACE'
+    org.springframework.integration: 'TRACE'
+    
+zuul:
+  ignoredServices: "*"
+  routes:
+    transactions-api-service: /account-transactions/**
+    accounts-api-service: /**

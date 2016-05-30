@@ -10,23 +10,24 @@
 	<name>microservices-demo</name>
 
 	<modules>
+		<module>eureka-discovery-server</module>
+		<module>spring-cloud-config-server</module>
+		<module>zuul-edge-server</module>
+		<module>zuul-edge-sso-server</module>
+		<module>hystrix-monitoring-dashboard</module>
+		<module>turbine-aggregation-server</module>
+		<module>oauth2-jwt-identity-server</module>
 		<module>pricing-core-service</module>
 		<module>products-core-service</module>
-		<module>products-composite-service</module>
-		<module>products-api-service</module>
-		<module>config-server</module>
-		<module>discovery-server</module>
-		<module>edge-server</module>
-		<module>oauth2-jwt-server</module>
-		<module>edge-zuul-sso-ui-server</module>
+		<module>transactions-core-service</module>
+		<module>payments-core-service</module>
 		<module>accounts-core-service</module>
 		<module>accounts-composite-service</module>
-		<module>payments-core-service</module>
+		<module>products-composite-service</module>
+		<module>products-api-service</module>
 		<module>transactions-api-service</module>
-		<module>transactions-core-service</module>
 		<module>accounts-api-service</module>
-		<module>monitor-dashboard</module>
-		<module>turbine-server</module>
+		
 	</modules>
 
 	<properties>
@@ -47,7 +48,6 @@
 		<version>Brixton.BUILD-SNAPSHOT</version>
 		<relativePath />
 	</parent>
-
 
 	<dependencies>
 		<dependency>
@@ -73,6 +73,7 @@
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -91,7 +92,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>

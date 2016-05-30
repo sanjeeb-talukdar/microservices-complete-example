@@ -4,7 +4,8 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: http://localhost:8888           
+      uri: http://ec2-52-72-100-22.compute-1.amazonaws.com/
+#     uri: http://localhost:8888         
 
 info:
   component: Accounts Core Service
@@ -18,21 +19,34 @@ endpoints:
     sensitive: false
 
 eureka:
+  name: accounts-core-service
+  awsAccessId: AKIAIXPIFMO634VRHDWA
+  awsSecretKey: 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
+  preferSameZone: true
+  shouldUseDns: true
+  serviceUrl:
+    default: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
   client:
+    region: us-east-1
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+      us-east-1a: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+  us-east-1:
+      availabilityZones: us-east-1a
   instance:
+#    hostname: sansoft-spring-cloud-config-server.us-east-1.elasticbeanstalk.com
+#    non-secure-port: 80
     leaseRenewalIntervalInSeconds: 10
     statusPageUrlPath: /info
     healthCheckUrlPath: /health
-    metadataMap:
-      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+ #   metadataMap:
+ #     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
       
 logging:
-  level: 
-    com.netflix.discovery: 'TRACE'
-    org.springframework.cloud: 'TRACE'
-    org.springframework.boot: 'TRACE'
-    org.springframework.context: 'TRACE'
-    org.springframework.integration: 'TRACE'
+  level:
+    ROOT: 'ERROR'
+    org.springframework.web: 'ERROR'
+    org.springframework.cloud: 'ERROR'
+    org.springframework.boot: 'ERROR'
+    org.springframework: 'ERROR'

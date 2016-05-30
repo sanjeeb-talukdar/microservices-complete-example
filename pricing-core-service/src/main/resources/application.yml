@@ -1,17 +1,59 @@
 spring:
   application:
     name: pricing-core-service
-
+  cloud:
+    config:
+      enabled: true
+      uri: http://ec2-52-2-175-131.compute-1.amazonaws.com/
+  h2:
+    console:
+       enabled: true
+       path: /console
+       settings:
+         trace: true
+         web-allow-others: true   
+            
 info:
   component: Pricing Core Service
+  
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
 
-server:
-  port: 8085
-
+eureka:
+  name: pricing-core-service
+  awsAccessId: AKIAIXPIFMO634VRHDWA
+  awsSecretKey: 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
+  preferSameZone: true
+  shouldUseDns: true
+  serviceUrl:
+    default: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+  client:
+    region: us-east-1
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+      us-east-1a: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+  us-east-1:
+      availabilityZones: us-east-1a
+  instance:
+    hostname: ec2-54-85-89-255.compute-1.amazonaws.com
+    non-secure-port: 80
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+ #   metadataMap:
+ #     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+      
 logging:
   level:
-    ROOT: TRACE
-    org.springframework.web: TRACE
-    org.springframework.cloud: TRACE
-    org.springframework.boot: TRACE
-    org.springframework: TRACE
+    ROOT: 'ERROR'
+    org.springframework.web: 'ERROR'
+    org.springframework.cloud: 'ERROR'
+    org.springframework.boot: 'ERROR'
+    org.springframework: 'ERROR'
+ 

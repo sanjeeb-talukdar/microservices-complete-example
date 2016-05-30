@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: oauth2-jwt-identity-server
+  cloud:
+    config:
+      enabled: true
+      uri: http://ec2-52-2-175-131.compute-1.amazonaws.com/
+#      uri: http://localhost:8888           
+
+info:
+  component: Oauth2 JWT Authentication Server
+  
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+#server:
+#  port: 9999
+
+security:
+  user:
+    password: password
+     
+eureka:
+  name: oauth2-jwt-identity-server
+  awsAccessId: AKIAIXPIFMO634VRHDWA
+  awsSecretKey: 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
+  preferSameZone: true
+  shouldUseDns: true
+  serviceUrl:
+    default: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+  client:
+    region: us-east-1
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+      us-east-1a: http://ec2-52-203-244-180.compute-1.amazonaws.com/eureka
+  us-east-1:
+      availabilityZones: us-east-1a
+  instance:
+    hostname: ec2-52-203-241-53.compute-1.amazonaws.com
+    non-secure-port: 80
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+ #   metadataMap:
+ #     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+      
+logging:
+  level:
+    ROOT: 'ERROR'
+    org.springframework.web: 'ERROR'
+    org.springframework.cloud: 'ERROR'
+    org.springframework.boot: 'ERROR'
+    org.springframework: 'ERROR'

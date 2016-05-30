@@ -3,6 +3,8 @@ package rest.composite;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -21,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableHystrix
 @EnableEurekaClient
-public class AccountCompositeApplication {
+public class AccountCompositeApplication extends SpringBootServletInitializer  {
 	
 	public static void main(String[] args) {
         SpringApplication.run(AccountCompositeApplication.class, args);
@@ -33,6 +35,10 @@ public class AccountCompositeApplication {
 		return new RestTemplate();
 	}
 	
-	
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(AccountCompositeApplication.class);
+    }
+
 	
 }

@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: hystrix-monitoring-dashboard
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888           
+
+info:
+  component: Hystrix Monitoring Dashboard
+  
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+server:
+  port: 7979
+
+management:
+  port: 8996
+
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    region: default
+    #For eureka clients running in eureka server, it needs to connect to servers in other zones
+    preferSameZone: false
+    #Change this if you want to use a DNS based lookup for determining other eureka servers. For example
+    #of specifying the DNS entries, check the eureka-com.bootnetflix.flight_booking_service-test.properties, eureka-com.bootnetflix.flight_booking_service-prod.properties
+    #shouldUseDns: false
+    us-east-1:
+      availabilityZones: default
+  instance:
+    #Virtual host name by which the clients identifies this service
+    virtualHostName: ${spring.application.name}
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+logging:
+  level: 
+    com.netflix.discovery: 'TRACE'
+    org.springframework.cloud: 'TRACE'
+    org.springframework.boot: 'TRACE'
+    org.springframework.context: 'TRACE'
+    org.springframework.integration: 'TRACE'
