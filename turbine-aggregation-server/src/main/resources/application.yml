@@ -82,7 +82,7 @@ turbine:
   instanceInsertPort:
      default: false
   combineHostPort: true
-  appConfig: transactions-api-service, accounts-api-service, products-api-service, products-composite-service, accounts-composite-service
+  appConfig: transactions-api-service, accounts-api-service, products-api-service, products-composite-service, accounts-composite-service, transactions-core-service, products-core-service, pricing-core-service, payments-core-service, accounts-core-service
   clusterNameExpression: new String("default")
 
 

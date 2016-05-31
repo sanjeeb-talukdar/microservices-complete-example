@@ -1,6 +1,6 @@
 package com.products.composite.controller;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class ProductController {
 		if (res != null && HttpStatus.OK.equals(res.getStatusCode())) {
 			List<Product> products = res.getBody();
 			if (!products.isEmpty()) {
-				ProductsUtil.attachPrice(new HashSet<Product>(products), pricingService);
+				ProductsUtil.attachPrice(new ArrayList<Product>(products), pricingService);
 			}
 			if (products.isEmpty()) {
 				return new ResponseEntity<List<Product>>(HttpStatus.NOT_FOUND);

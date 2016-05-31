@@ -83,7 +83,7 @@ public class CatalogueProductController {
 		if (response != null && HttpStatus.OK.equals(response.getStatusCode())) {
 			Catalogue catalogue = response.getBody();
 			if (catalogue != null && !catalogue.getProducts().isEmpty()) {
-				ProductsUtil.attachPrice(catalogue.getProducts(), pricingService);
+				ProductsUtil.attachPrice(new ArrayList<Product>(catalogue.getProducts()), pricingService);
 				return new ResponseEntity<List<Product>>(new ArrayList<Product>(catalogue.getProducts()), HttpStatus.OK);
 			}
 		}

@@ -1,8 +1,7 @@
 package com.products.composite.controller;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -46,7 +45,7 @@ public class CatalogueController {
 			UriComponentsBuilder ucBuilder) {
 		ResponseEntity<List<Catalogue>> catalogues = catalogueService.get(name);
 		if (catalogues != null && HttpStatus.OK.equals(catalogues.getStatusCode())) {
-			Set<Product> products = new HashSet<Product>();
+			List<Product> products = new ArrayList<Product>();
 			List<Catalogue> cataloguesList = catalogues.getBody();
 			if (attachPrice) {
 				for (Catalogue catalogue : cataloguesList) {
@@ -89,7 +88,7 @@ public class CatalogueController {
 		if (response != null && HttpStatus.OK.equals(response.getStatusCode())) {
 			Catalogue catalogue = response.getBody();
 			if (catalogue != null && !catalogue.getProducts().isEmpty()) {
-				ProductsUtil.attachPrice(catalogue.getProducts(), pricingService);
+				ProductsUtil.attachPrice(new ArrayList<Product>(catalogue.getProducts()), pricingService);
 			}
 			return new ResponseEntity<Catalogue>(catalogue, HttpStatus.OK);
 		}

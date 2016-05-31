@@ -2,7 +2,6 @@ package com.products.composite.util;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,7 @@ import com.products.composite.resource.Product;
 import com.products.composite.service.PricingService;
 
 public class ProductsUtil {
-	public static void attachPrice(Set<Product> products, PricingService pricingService) {
+	public static void attachPrice(List<Product> products, PricingService pricingService) {
 		for (Product product : products) {
 			attachPrice(product, pricingService);
 		}
