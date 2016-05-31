@@ -38,7 +38,7 @@ public class CatalogueController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false")
 			})
 	public ResponseEntity<List<Catalogue>> getCatalogues(@RequestParam(name = "name", required = false) String name,
@@ -81,7 +81,7 @@ public class CatalogueController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Catalogue> findByCatalogueId(@PathVariable("catalogueId") int catalogueId,
 			UriComponentsBuilder ucBuilder) {
@@ -110,7 +110,7 @@ public class CatalogueController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Void> createCatalogue(@RequestBody Catalogue catalogue, UriComponentsBuilder ucBuilder) {
 		return catalogueService.create(catalogue);
@@ -129,7 +129,7 @@ public class CatalogueController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Catalogue> updateCatalogue(@PathVariable("catalogueId") int catalogueId,
 			@RequestBody Catalogue catalogue, UriComponentsBuilder ucBuilder) {
@@ -150,7 +150,7 @@ public class CatalogueController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Catalogue> deleteCatalogue(@PathVariable("catalogueId") int catalogueId,
 			UriComponentsBuilder ucBuilder) {
@@ -172,7 +172,7 @@ public class CatalogueController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Catalogue> attach2Catalogue(@PathVariable("catalogueId") int catalogueId,
 			@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {
@@ -194,7 +194,7 @@ public class CatalogueController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Catalogue> detachFromCatalogue(@PathVariable("catalogueId") int catalogueId,
 			@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {

@@ -5,8 +5,10 @@ spring:
     name: eureka-discovery-server
   cloud:
     config:
+      discovery:
+        enabled: true
       enabled: true
-      uri: http://ec2-54-175-244-196.compute-1.amazonaws.com/      
+      uri: http://172.31.6.132/      
 
 info:
   component: Discovery Server Eureka (Service Registry)
@@ -58,19 +60,24 @@ eureka:
    name: eureka-discovery-server
    shouldUseDns: true
    preferSameZone: true
- #  vipAddress: ec2-52-90-165-34.compute-1.amazonaws.com
+ #  vipAddress: 172.31.12.87
    region:
      us-east-1
    us-east-1:
       availabilityZones: us-east-1a
    serviceUrl:
-      us-east-1a: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
+      us-east-1a: http://172.31.12.87/eureka
    instance:   
-     hostname: ec2-52-90-165-34.compute-1.amazonaws.com
+     hostname: ip-172-31-12-87.ec2.internal
      non-secure-port: 80
+     ip-address: 172.31.12.87
+     prefer-ip-address: true
+     virtual-host-name: ec2-52-90-165-34.compute-1.amazonaws.com
      leaseRenewalIntervalInSeconds: 10
      statusPageUrlPath: /info
      healthCheckUrlPath: /health
+     app-group-name: micro-service
+     appname: eureka-discovery-server
 #     metadataMap:
 #      instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
    client:
@@ -78,7 +85,7 @@ eureka:
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
-      us-east-1a: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka  
+      us-east-1a: http://172.31.12.87/eureka  
    server:
      waitTimeInMsWhenSyncEmpty: 0
  

@@ -1,9 +1,11 @@
 spring:
   profiles:
-#   active: native
-   active: cloud
+    active: cloud
   cloud:
     config:
+      discovery:
+        enabled: true
+      enabled: true
       server:
         git:
           uri: https://github.com/sanjeeb-talukdar/microservices-demo-config-repo.git
@@ -36,21 +38,26 @@ eureka:
   preferSameZone: true
   shouldUseDns: true
   serviceUrl:
-    default: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
+    default: http://172.31.12.87/eureka
   client:
     region: us-east-1
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
-      us-east-1a: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
+      defaultZone: http://172.31.12.87/eureka
+      us-east-1a: http://172.31.12.87/eureka
   us-east-1:
       availabilityZones: us-east-1a
   instance:
-    hostname: ec2-54-175-244-196.compute-1.amazonaws.com
+    hostname: ip-172-31-6-132.ec2.internal
     non-secure-port: 80
+    ip-address: 172.31.6.132
+    prefer-ip-address: true
+    virtual-host-name: ec2-54-175-244-196.compute-1.amazonaws.com
     leaseRenewalIntervalInSeconds: 10
     statusPageUrlPath: /info
     healthCheckUrlPath: /health
+    app-group-name: micro-service
+    appname: spring-cloud-config-server 
  #   metadataMap:
  #     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
       
@@ -60,7 +67,4 @@ logging:
     org.springframework.web: 'ERROR'
     org.springframework.cloud: 'ERROR'
     org.springframework.boot: 'ERROR'
-    org.springframework: 'ERROR'
- 
-  
-      
+    org.springframework: 'ERROR'     

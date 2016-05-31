@@ -25,13 +25,13 @@ eureka:
   preferSameZone: true
   shouldUseDns: true
   serviceUrl:
-    default: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
+    default: http://172.31.12.87/eureka
   client:
     region: us-east-1
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
-      us-east-1a: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
+      defaultZone: http://172.31.12.87/eureka
+      us-east-1a: http://172.31.12.87/eureka
   us-east-1:
       availabilityZones: us-east-1a
   instance:

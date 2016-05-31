@@ -37,7 +37,7 @@ public class ProductController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<List<Product>> getProducts(
 			@RequestParam(name = "catalogue", required = false) String catalogue,
@@ -75,7 +75,7 @@ public class ProductController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Void> createProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
 		return productsService.create(product);
@@ -94,7 +94,7 @@ public class ProductController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Product> findByProductId(@PathVariable("productId") long productId,
 			UriComponentsBuilder ucBuilder) {
@@ -123,7 +123,7 @@ public class ProductController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Product> updateProduct(@PathVariable("productId") long productId, @RequestBody Product cat,
 			UriComponentsBuilder ucBuilder) {
@@ -144,7 +144,7 @@ public class ProductController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Product> deleteProduct(@PathVariable("productId") long productId,
 			UriComponentsBuilder ucBuilder) {
@@ -165,7 +165,7 @@ public class ProductController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Void> createPrice(@PathVariable("productId") long productId, @RequestBody Price price,
 			UriComponentsBuilder ucBuilder) {
@@ -190,7 +190,7 @@ public class ProductController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<List<Price>> getPrices(@PathVariable("productId") long productId,
 			UriComponentsBuilder ucBuilder) {
@@ -217,7 +217,7 @@ public class ProductController {
 			@HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
 			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500000"),
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
 	public ResponseEntity<Price> getPrice(@PathVariable("productId") long productId,
 			@PathVariable("currency") String currency, UriComponentsBuilder ucBuilder) {

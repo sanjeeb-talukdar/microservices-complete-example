@@ -58,13 +58,13 @@ eureka:
    name: eureka-discovery-server
    shouldUseDns: true
    preferSameZone: true
- #  vipAddress: ec2-52-90-165-34.compute-1.amazonaws.com
+ #  vipAddress: 172.31.12.87
    region:
      us-east-1
    us-east-1:
       availabilityZones: us-east-1a
    serviceUrl:
-      us-east-1a: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
+      us-east-1a: http://172.31.12.87/eureka
    instance:   
  #    hostname: ip-172-31-58-121.ec2.internal
      leaseRenewalIntervalInSeconds: 10
@@ -77,7 +77,7 @@ eureka:
      registerWithEureka: false
      fetchRegistry: false
      serviceUrl:
-       defaultZone: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka   
+       defaultZone: http://172.31.12.87/eureka   
    server:
      waitTimeInMsWhenSyncEmpty: 0
  
