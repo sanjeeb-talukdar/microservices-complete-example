@@ -1,10 +1,9 @@
 <h1>API Tester</h1>
 <div ng-show="authenticated">
 	<p>
-		<select name="methodName" id="methodName" class="small"
-		  ng-options="option.name for option in controller.methods.availableOptions track by option.id"
+		<select name="methodName" id="methodName" ng-options="option.name for option in controller.methods.availableOptions track by option.id"
 		  ng-model="controller.methods.selectedOption" ng-change="controller.onMethodChange()" ></select>
-		<input name="url" id="url" type="text" ng-model="controller.url" class="large">
+		<input name="url" id="url" type="text" ng-model="controller.url" style="width:68%;" >
 		<button ng-click="controller.submitToURI()"><< Submit >> </button>
 	</p>
 	<p>

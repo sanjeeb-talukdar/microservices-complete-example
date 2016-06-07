@@ -35,7 +35,7 @@ eureka:
   us-east-1:
       availabilityZones: us-east-1a
   instance:
-#    hostname: ip-172-31-2-81.ec2.internal:8080
+#    hostname: ip-172-31-4-219.ec2.internal:8080
 #    non-secure-port: 80
     leaseRenewalIntervalInSeconds: 10
     statusPageUrlPath: /info
