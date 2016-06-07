@@ -8,7 +8,7 @@ spring:
       discovery:
         enabled: true
       enabled: true
-      uri: http://sansoft-spring-cloud-config-server.us-east-1.elasticbeanstalk.com/
+      uri: http://ip-172-31-2-81.ec2.internal:8080/
 
 info:
   component: Turbine Aggregation Server
@@ -24,7 +24,7 @@ endpoints:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com/eureka
+      defaultZone: http://ip-172-31-11-75.ec2.internal:8080/eureka
            
 logging:
   level:
