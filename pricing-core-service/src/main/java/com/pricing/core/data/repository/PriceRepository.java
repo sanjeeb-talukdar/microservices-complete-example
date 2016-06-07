@@ -1,5 +1,6 @@
 package com.pricing.core.data.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,5 @@ import com.pricing.core.data.PriceId;
 @RepositoryRestResource(exported = false)
 public interface PriceRepository extends JpaRepository<Price, PriceId> {
 	List<Price> findByProductId(@Param ("productId") Long productId);
+	List<Price> findByProductIdIn(@Param ("productIds") Collection<Long> productIds);
 }

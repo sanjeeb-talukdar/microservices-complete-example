@@ -12,7 +12,8 @@ import com.products.composite.serializer.PriceSerializer;
 @JsonIgnoreProperties( ignoreUnknown = true)
 public class Price implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	@JsonProperty("productId")
+	private Long productId;
 	@JsonProperty(value = "currency")
 	private Currency currency;
 	@JsonProperty(value = "price")
@@ -22,9 +23,10 @@ public class Price implements Serializable {
 	}
 
 	@JsonCreator
-	public Price(@JsonProperty("currency") Currency currency,
+	public Price(@JsonProperty("productId") Long productId, @JsonProperty("currency") Currency currency,
 			@JsonProperty("price") Double price) {
 		super();
+		this.productId = productId;
 		this.currency = currency;
 		this.price = price;
 	}
@@ -44,11 +46,25 @@ public class Price implements Serializable {
 		this.price = price;
 	}
 
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+	@Override
+	public String toString() {
+		return "Price [productId=" + productId + ", currency=" + currency + ", price=" + price + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
+		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
 		return result;
 	}
 
@@ -63,12 +79,13 @@ public class Price implements Serializable {
 		Price other = (Price) obj;
 		if (currency != other.currency)
 			return false;
+		if (productId == null) {
+			if (other.productId != null)
+				return false;
+		} else if (!productId.equals(other.productId))
+			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Price [currency=" + currency + ", price=" + price + "]";
-	}
 
 }

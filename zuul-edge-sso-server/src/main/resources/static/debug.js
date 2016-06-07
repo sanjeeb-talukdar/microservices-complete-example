@@ -1,3 +1,5 @@
+var app = angular.module('debug', [ 'ngRoute', 'ngSanitize', 'ngPrettyJson' ]);
+
 function showHeaders() {
 	showAuthHeaders();
 	showHeaderHeaders();
@@ -91,7 +93,7 @@ function postWithAjax(myajax) {
 			$("#statuspre").addClass("alert-warning");
 		}
 		try{var obj = JSON.parse(jqXHR.responseText);
-			var text = JSON.stringify(data, undefined, 4);
+			var text = JSON.stringify(obj, undefined, 4);
 			$("#outputpre").text(text);
 		} catch(e){
 			$("#outputpre").text(jqXHR.responseText);
@@ -100,7 +102,7 @@ function postWithAjax(myajax) {
 	}
 
 	if (jQuery.isEmptyObject(myajax.data)) {
-		myajax.contentType = 'application/x-www-form-urlencoded';
+		myajax.contentType = 'application/json';
 	}
 
 	$("#outputframe").hide();
@@ -132,7 +134,7 @@ $("#submitajax").click(function(e) {
   } else {
     postWithAjax({
       headers : createHeaderData(),
-      data : createUrlData()
+      data : createMultipart()
     });    
   }
 });
@@ -161,10 +163,24 @@ function createUrlData(){
 
 function createMultipart(){
   //create multipart object
-  var data = new FormData();
+  var data = {};
+  
+  try { 
+  
+		data = JSON.parse($("#jsonData").val());
+  
+	} catch(e){
+	  
+	  //alert(e);
+	  
+ }
+  
+  
+  
+  //new FormData();
   
   //add parameters
-  var parameters = $("#allparameters").find(".realinputvalue");
+ /* var parameters = $("#allparameters").find(".realinputvalue");
 	for (i = 0; i < parameters.length; i++) {
 		name = $(parameters).eq(i).attr("name");
 		if (name == undefined || name == "undefined") {
@@ -175,7 +191,7 @@ function createMultipart(){
     } else {
 		  data.append(name, $(parameters).eq(i).val());
     }
-	}
+	}*/
   return(data)  
 }
 

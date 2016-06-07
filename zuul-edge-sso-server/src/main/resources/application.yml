@@ -10,8 +10,7 @@ spring:
       discovery:
         enabled: true
       enabled: true
-      uri: http://172.31.6.132/
-#      uri: http://localhost:8888           
+      uri: http://sansoft-spring-cloud-config-server.us-east-1.elasticbeanstalk.com/
 
 info:
   component: Edge Server Zuul (API Gateway + SSO + Login UI)
@@ -24,41 +23,10 @@ endpoints:
   health:
     sensitive: false
 
-#server:
-#  port: 9991
-
-#management:
-#  port: 8983
-
 eureka:
-  name: zuul-edge-sso-server
-  awsAccessId: AKIAIXPIFMO634VRHDWA
-  awsSecretKey: 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
-  preferSameZone: true
-  shouldUseDns: true
-  serviceUrl:
-    default: http://172.31.12.87/eureka
   client:
-    region: us-east-1
-    registerWithEureka: true
     serviceUrl:
-      defaultZone: http://172.31.12.87/eureka
-      us-east-1a: http://172.31.12.87/eureka
-  us-east-1:
-      availabilityZones: us-east-1a
-  instance:
-    hostname: ip-172-31-0-98.ec2.internal
-    non-secure-port: 80
-    ip-address: 172.31.0.98
-    prefer-ip-address: true
-    virtual-host-name: ec2-52-204-13-89.compute-1.amazonaws.com
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /info
-    healthCheckUrlPath: /health
-    app-group-name: micro-service
-    appname: zuul-edge-sso-server
- #   metadataMap:
- #     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+      defaultZone: http://sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com/eureka
       
 logging:
   level:
@@ -69,7 +37,6 @@ logging:
     org.springframework: 'ERROR'
     
 zuul:
-#  ignoredServices: "*"
   routes:
     transactions-api-service: /account-transactions/**
     accounts-api-service: /account-details/**
@@ -83,8 +50,8 @@ security:
     password: none
   oauth2:
     client:
-      accessTokenUri: http://ec2-52-23-235-69.compute-1.amazonaws.com/oauth/token
-      userAuthorizationUri: http://ec2-52-23-235-69.compute-1.amazonaws.com/oauth/authorize
+      accessTokenUri: http://sansoft-oauth2-jwt-identity-server.us-east-1.elasticbeanstalk.com/oauth/token
+      userAuthorizationUri: http://sansoft-oauth2-jwt-identity-server.us-east-1.elasticbeanstalk.com/oauth/authorize
       clientId: maybank-client
       clientSecret: maybank-client-secret
     resource:
@@ -93,3 +60,9 @@ security:
           -----BEGIN PUBLIC KEY-----
           MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnGp/Q5lh0P8nPL21oMMrt2RrkT9AW5jgYwLfSUnJVc9G6uR3cXRRDCjHqWU5WYwivcF180A6CWp/ireQFFBNowgc5XaA0kPpzEtgsA5YsNX7iSnUibB004iBTfU9hZ2Rbsc8cWqynT0RyN4TP1RYVSeVKvMQk4GT1r7JCEC+TNu1ELmbNwMQyzKjsfBXyIOCFU/E94ktvsTZUHF4Oq44DBylCDsS1k7/sfZC2G5EU7Oz0mhG8+Uz6MSEQHtoIi6mc8u64Rwi3Z3tscuWG2ShtsUFuNSAFNkY7LkLn+/hxLCu2bNISMaESa8dG22CIMuIeRLVcAmEWEWH5EEforTg+QIDAQAB
           -----END PUBLIC KEY-----
+          
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 6000000
+ribbon:
+  ConnectTimeout: 6000000
+  ReadTimeout: 6000000

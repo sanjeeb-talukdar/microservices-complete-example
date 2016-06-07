@@ -6,9 +6,7 @@ spring:
       discovery:
         enabled: true
       enabled: true
-      uri: http://172.31.6.132/
-#     uri: http://localhost:8888         
-       
+      uri: http://sansoft-spring-cloud-config-server.us-east-1.elasticbeanstalk.com/
 
 info:
   component: Accounts Composite Service
@@ -22,34 +20,9 @@ endpoints:
     sensitive: false
 
 eureka:
-  name: accounts-composite-service
-  awsAccessId: AKIAIXPIFMO634VRHDWA
-  awsSecretKey: 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
-  preferSameZone: true
-  shouldUseDns: true
-  serviceUrl:
-    default: http://172.31.12.87/eureka
   client:
-    region: us-east-1
-    registerWithEureka: true
     serviceUrl:
-      defaultZone: http://172.31.12.87/eureka
-      us-east-1a: http://172.31.12.87/eureka
-  us-east-1:
-      availabilityZones: us-east-1a
-  instance:
-    hostname: ip-172-31-8-207.ec2.internal
-    non-secure-port: 80
-    ip-address: 172-31-8-207
-    prefer-ip-address: true
-    virtual-host-name: ec2-54-209-191-209.compute-1.amazonaws.com
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /info
-    healthCheckUrlPath: /health
-    app-group-name: micro-service
-    appname: accounts-composite-service
- #   metadataMap:
- #     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+      defaultZone: http://sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com/eureka
       
 logging:
   level:
@@ -58,4 +31,3 @@ logging:
     org.springframework.cloud: 'ERROR'
     org.springframework.boot: 'ERROR'
     org.springframework: 'ERROR'
-

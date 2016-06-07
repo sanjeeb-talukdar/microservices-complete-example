@@ -21,7 +21,7 @@ import com.products.composite.resource.Price;
 import com.products.composite.resource.Product;
 import com.products.composite.service.PricingService;
 import com.products.composite.service.ProductsService;
-import com.products.composite.util.ProductsUtil;
+import com.products.composite.util.PricingUtil;
 
 @RestController
 @RequestMapping("/product")
@@ -39,16 +39,16 @@ public class ProductController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<List<Product>> getProducts(
+	public ResponseEntity<List<Product>> getCompProducts(
 			@RequestParam(name = "catalogue", required = false) String catalogue,
 			@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "tag", required = false) String tag,
 			@RequestParam(name = "description", required = false) String description, UriComponentsBuilder ucBuilder) {
-		ResponseEntity<List<Product>> res = productsService.get(catalogue, name, tag, description);
+		ResponseEntity<List<Product>> res = productsService.getProducts(catalogue, name, tag, description);
 		if (res != null && HttpStatus.OK.equals(res.getStatusCode())) {
 			List<Product> products = res.getBody();
 			if (!products.isEmpty()) {
-				ProductsUtil.attachPrice(new ArrayList<Product>(products), pricingService);
+				PricingUtil.attachPrice(new ArrayList<Product>(products), pricingService);
 			}
 			if (products.isEmpty()) {
 				return new ResponseEntity<List<Product>>(HttpStatus.NOT_FOUND);
@@ -77,8 +77,8 @@ public class ProductController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Void> createProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
-		return productsService.create(product);
+	public ResponseEntity<Void> createCompProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
+		return productsService.createProduct(product);
 	}
 
 	@SuppressWarnings("unused")
@@ -96,13 +96,13 @@ public class ProductController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Product> findByProductId(@PathVariable("productId") long productId,
+	public ResponseEntity<Product> findByCompProductId(@PathVariable("productId") long productId,
 			UriComponentsBuilder ucBuilder) {
-		ResponseEntity<Product> res = productsService.findById(productId);
+		ResponseEntity<Product> res = productsService.findByProductId(productId);
 		if (res != null && HttpStatus.OK.equals(res.getStatusCode())) {
 			Product products = res.getBody();
 			if (products != null) {
-				ProductsUtil.attachPrice(products, pricingService);
+				PricingUtil.attachPrice(products, pricingService);
 			}
 			return new ResponseEntity<Product>(products, HttpStatus.OK);
 		}
@@ -125,9 +125,9 @@ public class ProductController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Product> updateProduct(@PathVariable("productId") long productId, @RequestBody Product cat,
+	public ResponseEntity<Product> updateCompProduct(@PathVariable("productId") long productId, @RequestBody Product cat,
 			UriComponentsBuilder ucBuilder) {
-		return productsService.update(productId, cat);
+		return productsService.updateProduct(productId, cat);
 	}
 
 	@SuppressWarnings("unused")
@@ -146,9 +146,10 @@ public class ProductController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Product> deleteProduct(@PathVariable("productId") long productId,
+	public ResponseEntity<Product> deleteCompProduct(@PathVariable("productId") long productId,
 			UriComponentsBuilder ucBuilder) {
-		return productsService.delete(productId);
+		/** TODO Also delete the prices */
+		return productsService.deleteProduct(productId);
 	}
 
 	@SuppressWarnings("unused")
@@ -167,11 +168,11 @@ public class ProductController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Void> createPrice(@PathVariable("productId") long productId, @RequestBody Price price,
+	public ResponseEntity<Void> createCompPrice(@PathVariable("productId") long productId, @RequestBody Price price,
 			UriComponentsBuilder ucBuilder) {
-		ResponseEntity<Product> productResponse = productsService.findById(productId);
+		ResponseEntity<Product> productResponse = productsService.findByProductId(productId);
 		if (HttpStatus.OK.equals(productResponse.getStatusCode())) {
-			return pricingService.create(productId, price);
+			return pricingService.createPrice(productId, price);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
@@ -192,9 +193,9 @@ public class ProductController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<List<Price>> getPrices(@PathVariable("productId") long productId,
+	public ResponseEntity<List<Price>> getCompPrices(@PathVariable("productId") long productId,
 			UriComponentsBuilder ucBuilder) {
-		ResponseEntity<List<Price>> res = pricingService.get(productId);
+		ResponseEntity<List<Price>> res = pricingService.getPrices(productId);
 		if (res != null && HttpStatus.OK.equals(res.getStatusCode())) {
 			List<Price> products = res.getBody();
 			return new ResponseEntity<List<Price>>(products, HttpStatus.OK);
@@ -219,10 +220,10 @@ public class ProductController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Price> getPrice(@PathVariable("productId") long productId,
+	public ResponseEntity<Price> getCompPrice(@PathVariable("productId") long productId,
 			@PathVariable("currency") String currency, UriComponentsBuilder ucBuilder) {
 		if (currency != null && !"".equals(currency.trim())) {
-			ResponseEntity<Price> res = pricingService.get(productId, currency.trim().toUpperCase());
+			ResponseEntity<Price> res = pricingService.findByCurrency(productId, currency.trim().toUpperCase());
 			if (res != null && HttpStatus.OK.equals(res.getStatusCode())) {
 				Price products = res.getBody();
 				return new ResponseEntity<Price>(products, HttpStatus.OK);

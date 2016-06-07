@@ -26,20 +26,21 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 @EnableFeignClients
 public class ProductsCompositeApplication extends SpringBootServletInitializer {
-	
+
 	public static void main(String[] args) {
-        SpringApplication.run(ProductsCompositeApplication.class, args);
-    }
-	
+		SpringApplication.run(ProductsCompositeApplication.class, args);
+	}
+
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(ProductsCompositeApplication.class).web(true);
 	}
 	
+
 	@Bean
 	@LoadBalanced
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-	
+
 }

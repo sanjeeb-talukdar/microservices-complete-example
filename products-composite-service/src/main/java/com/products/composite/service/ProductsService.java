@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.products.composite.resource.Product;
 
-@FeignClient("products-core-service")
+@FeignClient(name ="products-core-service", configuration ={ FeignConfiguration.class} )
 public interface ProductsService {
 	@RequestMapping(value = "/product/", method = RequestMethod.GET, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<List<Product>> get(@RequestParam(name = "catalogue", required = false) String catalogue,
+	public ResponseEntity<List<Product>> getProducts(@RequestParam(name = "catalogue", required = false) String catalogue,
 			@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "tag", required = false) String tag,
 			@RequestParam(name = "description", required = false) String description);
 	@RequestMapping(value = "/product/", method = RequestMethod.POST, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Void> create(@RequestBody Product product);
+	public ResponseEntity<Void> createProduct(@RequestBody Product product);
 	@RequestMapping(value = "/product/{id}", method = RequestMethod.GET, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Product> findById(@PathVariable("id") long id);
+	public ResponseEntity<Product> findByProductId(@PathVariable("id") long id);
 	@RequestMapping(value = "/product/{id}", method = RequestMethod.PUT, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Product> update(@PathVariable("id") long id, @RequestBody Product cat);
+	public ResponseEntity<Product> updateProduct(@PathVariable("id") long id, @RequestBody Product cat);
 	@RequestMapping(value = "/product/{id}/associate/{catId}", method = RequestMethod.PUT, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Product> update(@PathVariable("id") long id, @PathVariable("id") int catId);
+	public ResponseEntity<Product> associateCatalogue(@PathVariable("id") long id, @PathVariable("id") int catId);
 	@RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Product> delete(@PathVariable("id") long id);
+	public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id);
 	
 }

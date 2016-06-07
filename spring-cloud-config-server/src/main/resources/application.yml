@@ -9,8 +9,6 @@ spring:
       server:
         git:
           uri: https://github.com/sanjeeb-talukdar/microservices-demo-config-repo.git
- #       native:
- #         search-locations: file:///D:/Projects/MayBank/microservices-complete-example/sample-config
   application:
     name: spring-cloud-config-server    
   
@@ -25,41 +23,10 @@ endpoints:
   health:
     sensitive: false
 
-#server:
-#  port: 80
-
-#management:
-#  port: 8995
-
 eureka:
-  name: spring-cloud-config-server
-  awsAccessId: AKIAIXPIFMO634VRHDWA
-  awsSecretKey: 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
-  preferSameZone: true
-  shouldUseDns: true
-  serviceUrl:
-    default: http://172.31.12.87/eureka
   client:
-    region: us-east-1
-    registerWithEureka: true
     serviceUrl:
-      defaultZone: http://172.31.12.87/eureka
-      us-east-1a: http://172.31.12.87/eureka
-  us-east-1:
-      availabilityZones: us-east-1a
-  instance:
-    hostname: ip-172-31-6-132.ec2.internal
-    non-secure-port: 80
-    ip-address: 172.31.6.132
-    prefer-ip-address: true
-    virtual-host-name: ec2-54-175-244-196.compute-1.amazonaws.com
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /info
-    healthCheckUrlPath: /health
-    app-group-name: micro-service
-    appname: spring-cloud-config-server 
- #   metadataMap:
- #     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
+      defaultZone: http://sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com/eureka
       
 logging:
   level:

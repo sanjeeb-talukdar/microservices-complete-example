@@ -39,7 +39,7 @@ public class ProductsApiApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(ProductsApiApplication.class).web(true);
 	}
-	
+
 	@Bean
 	@LoadBalanced
 	public RestTemplate restTemplate() {

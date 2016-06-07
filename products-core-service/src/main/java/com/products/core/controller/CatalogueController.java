@@ -32,7 +32,7 @@ public class CatalogueController {
 	private ProductRepository productRepo;
 
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
-	public ResponseEntity<List<Catalogue>> get(@RequestParam(name = "name", required = false) String name) {
+	public ResponseEntity<List<Catalogue>> getCatalogue(@RequestParam(name = "name", required = false) String name) {
 		List<Catalogue> catalogues = null;
 		if (name != null && !"".equals(name.trim())) {
 			catalogues = catalogueRepo.findByNameContainsIgnoreCase("%" + name.trim().toLowerCase() + "%");
@@ -49,7 +49,7 @@ public class CatalogueController {
 	}
 
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.POST)
-	public ResponseEntity<Void> create(@RequestBody Catalogue catalogue, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<Void> createCatalogue(@RequestBody Catalogue catalogue, UriComponentsBuilder ucBuilder) {
 		if (catalogue != null && catalogue.getName() != null && !"".equals(catalogue.getName().trim())) {
 			catalogue = catalogueRepo.save(catalogue);
 			HttpHeaders headers = new HttpHeaders();
@@ -61,7 +61,7 @@ public class CatalogueController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Catalogue> findById(@PathVariable("id") int id) {
+	public ResponseEntity<Catalogue> findByCatalogueId(@PathVariable("id") int id) {
 		Catalogue catalogue = catalogueRepo.findOne(id);
 		if (catalogue == null) {
 			return new ResponseEntity<Catalogue>(HttpStatus.NOT_FOUND);
@@ -70,7 +70,7 @@ public class CatalogueController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Catalogue> update(@PathVariable("id") int id, @RequestBody Catalogue cat) {
+	public ResponseEntity<Catalogue> updateCatalogue(@PathVariable("id") int id, @RequestBody Catalogue cat) {
 		Catalogue catalogue = catalogueRepo.findOne(id);
 		if (catalogue == null) {
 			return new ResponseEntity<Catalogue>(HttpStatus.NOT_FOUND);
@@ -84,7 +84,7 @@ public class CatalogueController {
 	}
 	
 	@RequestMapping(value = "/{id}/attach/{prodId}", method = RequestMethod.PUT)
-	public ResponseEntity<Catalogue> attach(@PathVariable("id") int id, @PathVariable("prodId") long prod) {
+	public ResponseEntity<Catalogue> attachProduct(@PathVariable("id") int id, @PathVariable("prodId") long prod) {
 		if (id < 1 || prod < 1) {
 			return new ResponseEntity<Catalogue>(HttpStatus.BAD_REQUEST);
 		}
@@ -103,7 +103,7 @@ public class CatalogueController {
 	}
 	
 	@RequestMapping(value = "/{id}/detach/{prodId}", method = RequestMethod.PUT)
-	public ResponseEntity<Catalogue> detach(@PathVariable("id") int id, @PathVariable("prodId") long prod) {
+	public ResponseEntity<Catalogue> detachProduct(@PathVariable("id") int id, @PathVariable("prodId") long prod) {
 		if (id < 1 || prod < 1) {
 			return new ResponseEntity<Catalogue>(HttpStatus.BAD_REQUEST);
 		}
@@ -122,7 +122,7 @@ public class CatalogueController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Catalogue> delete(@PathVariable("id") int id) {
+	public ResponseEntity<Catalogue> deleteCatalogue(@PathVariable("id") int id) {
 		Catalogue cat = catalogueRepo.findOne(id);
 		if (cat == null) {
 			return new ResponseEntity<Catalogue>(HttpStatus.NOT_FOUND);

@@ -8,8 +8,7 @@ spring:
       discovery:
         enabled: true
       enabled: true
-      uri: http://172.31.6.132/
-#      uri: http://localhost:8888           
+      uri: http://sansoft-spring-cloud-config-server.us-east-1.elasticbeanstalk.com/
 
 info:
   component: Turbine Aggregation Server
@@ -22,42 +21,11 @@ endpoints:
   health:
     sensitive: false
 
-#server:
-#  port: 8989
-
-#management:
-#  port: 8990
-
 eureka:
-  name: turbine-aggregation-server
-  awsAccessId: AKIAIXPIFMO634VRHDWA
-  awsSecretKey: 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
-  preferSameZone: true
-  shouldUseDns: true
-  serviceUrl:
-    default: http://172.31.12.87/eureka
   client:
-    region: us-east-1
-    registerWithEureka: true
     serviceUrl:
-      defaultZone: http://172.31.12.87/eureka
-      us-east-1a: http://172.31.12.87/eureka
-  us-east-1:
-      availabilityZones: us-east-1a
-  instance:
-    hostname: ip-172-31-5-66.ec2.internal
-    non-secure-port: 80
-    ip-address: 172.31.5.66
-    prefer-ip-address: true
-    virtual-host-name: ec2-52-207-232-182.compute-1.amazonaws.com
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /info
-    healthCheckUrlPath: /health
-    app-group-name: micro-service
-    appname: turbine-aggregation-server
- #   metadataMap:
- #     instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
-      
+      defaultZone: http://sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com/eureka
+           
 logging:
   level:
     ROOT: 'ERROR'
@@ -65,18 +33,6 @@ logging:
     org.springframework.cloud: 'ERROR'
     org.springframework.boot: 'ERROR'
     org.springframework: 'ERROR'
- 
-#################################
-# Turbine 
-#################################
-#turbine:
-#   aggregator:
-#      clusterConfig: myCluster
-#   instanceUrlSuffix:
-#      myCluster: /hystrix.stream
-#   ConfigPropertyBasedDiscovery:
-#      myCluster:
-#        instances: localhost:8082,localhost:8083
 
 turbine:
   instanceInsertPort:
@@ -84,6 +40,3 @@ turbine:
   combineHostPort: true
   appConfig: transactions-api-service, accounts-api-service, products-api-service, products-composite-service, accounts-composite-service, transactions-core-service, products-core-service, pricing-core-service, payments-core-service, accounts-core-service
   clusterNameExpression: new String("default")
-
-
-

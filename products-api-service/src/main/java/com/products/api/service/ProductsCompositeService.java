@@ -16,7 +16,7 @@ import com.products.api.resource.Price;
 import com.products.api.resource.Product;
 
 @RestController
-@FeignClient("products-composite-service")
+@FeignClient(name = "products-composite-service", configuration = {FeignConfiguration.class})
 public interface ProductsCompositeService {
 	@RequestMapping(value = "/catalogue/", method = RequestMethod.GET, headers = { "accept= application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })

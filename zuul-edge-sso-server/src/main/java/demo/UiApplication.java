@@ -50,7 +50,7 @@ public class UiApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(UiApplication.class);
 	}
-
+	
 	@Component
 	@EnableOAuth2Sso
 	protected static class UiApplicationConfig extends WebSecurityConfigurerAdapter {

@@ -13,6 +13,10 @@ public class PriceSerializer extends JsonSerializer<Price> {
 	public void serialize(Price value, JsonGenerator generator, SerializerProvider provider)
 			throws IOException, JsonProcessingException {
 		generator.writeStartObject();
+		if (value.getProductId() != null) {
+			generator.writeFieldName("productId");
+			generator.writeNumber(value.getProductId());
+		}
 		if (value.getCurrency() != null) {
 			generator.writeFieldName("currency");
 			generator.writeString(value.getCurrency().getName());

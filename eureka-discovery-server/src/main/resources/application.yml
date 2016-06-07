@@ -5,10 +5,8 @@ spring:
     name: eureka-discovery-server
   cloud:
     config:
-      discovery:
-        enabled: true
       enabled: true
-      uri: http://172.31.6.132/      
+      uri: http://sansoft-spring-cloud-config-server.us-east-1.elasticbeanstalk.com/     
 
 info:
   component: Discovery Server Eureka (Service Registry)
@@ -21,71 +19,30 @@ endpoints:
   health:
     sensitive: false
 
-#server:
-#  port: 80
-
-#management:
-#  port: 8994
-
-# Defines the Eureka server that is used by the Netflix OSS components to use as the registry
-# for server discovery
-
-## -----------------------
-## AWS deployment examples
-##------------------------
-
-# for AWS deployments, availability zones can be specified to take advantage of eureka client zone affinity by
-# specifying the following configurations.
-# for example, if the deployment is in us-east-1 and the available zones are us-east-1a, us-east-1b and us-east-1c,
-
-# define the region
-#eureka.region=us-east-1
-
-# notice that the region is specified as part of the config name
-#eureka.us-east-1.availabilityZones=us-east-1a,us-east-1b,us-east-1c
-
-# "eurekaServerPort" is whatever port your eureka servers are configured with
-#eureka.serviceUrl.us-east-1a=http://eurekaServerHostName:eurekaServerPort/eureka/v2
-#eureka.serviceUrl.us-east-1b=http://eurekaServerHostName:eurekaServerPort/eureka/v2
-#eureka.serviceUrl.us-east-1c=http://eurekaServerHostName:eurekaServerPort/eureka/v2
-
-# If shouldUseDns is set to true, the below is an example of how to configure eureka client to route to eureka servers,
-# assuming for example your DNS records are setup thus:
-# txt record: txt.mycompany.eureka.mydomain.com => "server1address" "server2address" "server3address"
-#eureka.shouldUseDns=true
-#eureka.eurekaServer.domainName=mydomain.com
 eureka:
    awsAccessId: AKIAIXPIFMO634VRHDWA
    awsSecretKey: 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
    name: eureka-discovery-server
    shouldUseDns: true
    preferSameZone: true
- #  vipAddress: 172.31.12.87
    region:
      us-east-1
    us-east-1:
-      availabilityZones: us-east-1a
+      availabilityZones: us-east-1b
    serviceUrl:
-      us-east-1a: http://172.31.12.87/eureka
+      us-east-1b: http://sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com/eureka
    instance:   
-     hostname: ip-172-31-12-87.ec2.internal
+     hostname: sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com
      non-secure-port: 80
-     ip-address: 172.31.12.87
-     prefer-ip-address: true
-     virtual-host-name: ec2-52-90-165-34.compute-1.amazonaws.com
      leaseRenewalIntervalInSeconds: 10
      statusPageUrlPath: /info
      healthCheckUrlPath: /health
-     app-group-name: micro-service
-     appname: eureka-discovery-server
-#     metadataMap:
-#      instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}}
    client:
     region: us-east-1
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://ec2-52-90-165-34.compute-1.amazonaws.com/eureka
-      us-east-1a: http://172.31.12.87/eureka  
+      defaultZone: http://sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com/eureka
+      us-east-1b: http://sansoft-eureka-discovery-server.us-east-1.elasticbeanstalk.com/eureka  
    server:
      waitTimeInMsWhenSyncEmpty: 0
  

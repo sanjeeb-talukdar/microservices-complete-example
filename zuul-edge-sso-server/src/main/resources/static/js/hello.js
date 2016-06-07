@@ -28,6 +28,166 @@ angular.module('hello', [ 'ngRoute', 'ngSanitize', 'ngPrettyJson' ]).config(func
 	}
 }).controller('home', function($http) {
 	var self = this;	
+	self.methods = {
+     availableOptions: [
+       {id: 'GET', name: 'GET'},
+       {id: 'POST', name: 'POST'},
+       {id: 'PUT', name: 'PUT'},
+	   {id: 'DELETE', name: 'DELETE'}
+     ],
+     selectedOption: {id: 'GET', name: 'GET'} //This sets the default value of the select in the ui
+     };
+	self.url = "/product-catalogue/catalogue/";
+	self.showjson = false;
+	self.onMethodChange = function() {
+		var selMtd = self.methods.selectedOption.id;
+		if (selMtd)  {
+			switch (selMtd) {
+				case 'POST': 
+					self.showjson = true; 
+					break;
+				case 'PUT':
+					self.showjson = true; 
+					break;
+				default : 
+					self.showjson = false; 
+					break;
+			}
+		}
+	}
+	self.submitToURI = function() {
+		var selMtd = self.methods.selectedOption.id;
+		console.log(selMtd + ' ' + self.url + ' ' +self.json);
+		try { 
+			if (selMtd && self.url)  {
+				switch (selMtd) {
+					case 'POST': 
+						console.log('POST');
+						if(self.json) {
+							try{
+								var obj = {};
+								try{
+									obj = JSON.parse(self.json);
+									self.json = JSON.stringify(obj, undefined, 4);									
+								} catch (e) {
+									alert('Invalid json ' + self.json);
+								}
+								$http.post(self.url, obj).then(function (response)  {
+									self.status = 'Response status : ' + response.statusText + ' code : ' + response.status;
+									try{
+										self.response = JSON.stringify(response.data, undefined, 4);
+									} catch (e) {
+										self.response = response.data;
+									}
+									try{
+										self.headers = JSON.stringify(response.headers(), undefined, 4);
+									} catch (e) {
+										self.headers = response.headers();
+									}
+									try{
+										self.config = JSON.stringify(response.config, undefined, 4);
+									} catch (e) {
+										self.config = response.config;
+									}
+								});
+							} catch(e) {
+								console.log(e);
+							}
+						}
+						break;
+					case 'PUT':
+						console.log('PUT');
+						if(self.json) {
+							try{
+								var obj = {};
+								try{
+									obj = JSON.parse(self.json);
+									self.json = JSON.stringify(obj, undefined, 4);									
+								} catch (e) {
+									alert('Invalid json ' + self.json);
+								}
+								$http.put(self.url, obj).then(function (response)  {
+									self.status = 'Response status : ' + response.statusText + ' code : ' + response.status;
+									try{
+										self.response = JSON.stringify(response.data, undefined, 4);
+									} catch (e) {
+										self.response = response.data;
+									}
+									try{
+										self.headers = JSON.stringify(response.headers(), undefined, 4);
+									} catch (e) {
+										self.headers = response.headers();
+									}
+									try{
+										self.config = JSON.stringify(response.config, undefined, 4);
+									} catch (e) {
+										self.config = response.config;
+									}
+								});
+							} catch(e) {
+								console.log(e);
+							}
+						}
+						break;
+					case 'DELETE':
+					    console.log('DELETE');
+						
+							try{
+								$http.delete(self.url).then(function (response)  {
+									self.status = 'Response status : ' + response.statusText + ' code : ' + response.status;
+									try{
+										self.response = JSON.stringify(response.data, undefined, 4);
+									} catch (e) {
+										self.response = response.data;
+									}
+									try{
+										self.headers = JSON.stringify(response.headers(), undefined, 4);
+									} catch (e) {
+										self.headers = response.headers();
+									}
+									try{
+										self.config = JSON.stringify(response.config, undefined, 4);
+									} catch (e) {
+										self.config = config;
+									}
+								});
+							} catch(e) {
+								console.log(e);
+							}
+						
+						break;
+					default :
+						console.log('GET');
+							try{
+								$http.get(self.url).then(function (response)  {
+									self.status = 'Response status : ' + response.statusText + ' code : ' + response.status;
+									try{
+										self.response = JSON.stringify(response.data, undefined, 4);
+									} catch (e) {
+										self.response = response.data;
+									}
+									try{
+										self.headers = JSON.stringify(response.headers(), undefined, 4);
+									} catch (e) {
+										self.headers = response.headers();
+									}
+									try{
+										self.config = JSON.stringify(response.config, undefined, 4);
+									} catch (e) {
+										self.config = response.config;
+									}
+								});
+							} catch(e) {
+								console.log(e);
+							}
+						
+						break;
+				}
+			}
+		} catch(e){
+			console.log(e);
+		}
+	};
 	self.getUser = function() {
 		$http.get('auth/user').then(function(response) {
 			self.user = JSON.stringify(response.data, undefined, 4);

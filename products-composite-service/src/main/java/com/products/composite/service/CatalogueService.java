@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.products.composite.resource.Catalogue;
-@FeignClient("products-core-service")
+@FeignClient( name = "products-core-service", configuration ={ FeignConfiguration.class} )
 public interface CatalogueService {
 	@RequestMapping(value = "/catalogue/", method = RequestMethod.GET, headers = { "accept= application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<List<Catalogue>> get(@RequestParam(name = "name", required = false) String name);
+	public ResponseEntity<List<Catalogue>> getCatalogues(@RequestParam(name = "name", required = false) String name);
 	@RequestMapping(value = "/catalogue/", method = RequestMethod.POST, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Void> create(@RequestBody Catalogue catalogue);
+	public ResponseEntity<Void> createCatalogue(@RequestBody Catalogue catalogue);
 	@RequestMapping(value = "/catalogue/{id}", method = RequestMethod.GET, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Catalogue> findById(@PathVariable("id") int id);
+	public ResponseEntity<Catalogue> findByCatalogueId(@PathVariable("id") int id);
 	@RequestMapping(value = "/catalogue/{id}", method = RequestMethod.PUT, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Catalogue> update(@PathVariable("id") int id, @RequestBody Catalogue cat);
+	public ResponseEntity<Catalogue> updateCatalogue(@PathVariable("id") int id, @RequestBody Catalogue cat);
 	@RequestMapping(value = "/catalogue/{id}/attach/{prodId}", method = RequestMethod.PUT, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Catalogue> attach(@PathVariable("id") int id, @PathVariable("prodId") long prod);
+	public ResponseEntity<Catalogue> attachProduct(@PathVariable("id") int id, @PathVariable("prodId") long prod);
 	@RequestMapping(value = "/catalogue/{id}/detach/{prodId}", method = RequestMethod.PUT, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Catalogue> detach(@PathVariable("id") int id, @PathVariable("prodId") long prod);
+	public ResponseEntity<Catalogue> detachProduct(@PathVariable("id") int id, @PathVariable("prodId") long prod);
 	@RequestMapping(value = "/catalogue/{id}", method = RequestMethod.DELETE, headers = { "Accept=application/json",
 			"content-type= application/json", "accept-encoding= gzip, deflate", "accept-language= en-US,en;q=0.8" })
-	public ResponseEntity<Catalogue> delete(@PathVariable("id") int id);
+	public ResponseEntity<Catalogue> deleteCatalogue(@PathVariable("id") int id);
 }

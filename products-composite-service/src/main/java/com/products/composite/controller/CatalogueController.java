@@ -21,7 +21,7 @@ import com.products.composite.resource.Catalogue;
 import com.products.composite.resource.Product;
 import com.products.composite.service.CatalogueService;
 import com.products.composite.service.PricingService;
-import com.products.composite.util.ProductsUtil;
+import com.products.composite.util.PricingUtil;
 
 @RestController
 @RequestMapping("/catalogue")
@@ -40,10 +40,10 @@ public class CatalogueController {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false")
 			})
-	public ResponseEntity<List<Catalogue>> getCatalogues(@RequestParam(name = "name", required = false) String name,
+	public ResponseEntity<List<Catalogue>> getCompCatalogues(@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "attachPrice", required = false, defaultValue = "true") boolean attachPrice,
 			UriComponentsBuilder ucBuilder) {
-		ResponseEntity<List<Catalogue>> catalogues = catalogueService.get(name);
+		ResponseEntity<List<Catalogue>> catalogues = catalogueService.getCatalogues(name);
 		if (catalogues != null && HttpStatus.OK.equals(catalogues.getStatusCode())) {
 			List<Product> products = new ArrayList<Product>();
 			List<Catalogue> cataloguesList = catalogues.getBody();
@@ -54,7 +54,7 @@ public class CatalogueController {
 					}
 				}
 				if (!products.isEmpty()) {
-					ProductsUtil.attachPrice(products, pricingService);
+					PricingUtil.attachPrice(products, pricingService);
 				}
 			}
 			if (cataloguesList.isEmpty()) {
@@ -82,13 +82,13 @@ public class CatalogueController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Catalogue> findByCatalogueId(@PathVariable("catalogueId") int catalogueId,
+	public ResponseEntity<Catalogue> findByCompCatalogueId(@PathVariable("catalogueId") int catalogueId,
 			UriComponentsBuilder ucBuilder) {
-		ResponseEntity<Catalogue> response = catalogueService.findById(catalogueId);
+		ResponseEntity<Catalogue> response = catalogueService.findByCatalogueId(catalogueId);
 		if (response != null && HttpStatus.OK.equals(response.getStatusCode())) {
 			Catalogue catalogue = response.getBody();
 			if (catalogue != null && !catalogue.getProducts().isEmpty()) {
-				ProductsUtil.attachPrice(new ArrayList<Product>(catalogue.getProducts()), pricingService);
+				PricingUtil.attachPrice(new ArrayList<Product>(catalogue.getProducts()), pricingService);
 			}
 			return new ResponseEntity<Catalogue>(catalogue, HttpStatus.OK);
 		}
@@ -111,8 +111,8 @@ public class CatalogueController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Void> createCatalogue(@RequestBody Catalogue catalogue, UriComponentsBuilder ucBuilder) {
-		return catalogueService.create(catalogue);
+	public ResponseEntity<Void> createCompCatalogue(@RequestBody Catalogue catalogue, UriComponentsBuilder ucBuilder) {
+		return catalogueService.createCatalogue(catalogue);
 	}
 
 	@SuppressWarnings("unused")
@@ -130,9 +130,9 @@ public class CatalogueController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Catalogue> updateCatalogue(@PathVariable("catalogueId") int catalogueId,
+	public ResponseEntity<Catalogue> updateCompCatalogue(@PathVariable("catalogueId") int catalogueId,
 			@RequestBody Catalogue catalogue, UriComponentsBuilder ucBuilder) {
-		return catalogueService.update(catalogueId, catalogue);
+		return catalogueService.updateCatalogue(catalogueId, catalogue);
 	}
 
 	@SuppressWarnings("unused")
@@ -151,9 +151,9 @@ public class CatalogueController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Catalogue> deleteCatalogue(@PathVariable("catalogueId") int catalogueId,
+	public ResponseEntity<Catalogue> deleteCompCatalogue(@PathVariable("catalogueId") int catalogueId,
 			UriComponentsBuilder ucBuilder) {
-		return catalogueService.delete(catalogueId);
+		return catalogueService.deleteCatalogue(catalogueId);
 	}
 
 	@SuppressWarnings("unused")
@@ -173,9 +173,9 @@ public class CatalogueController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Catalogue> attach2Catalogue(@PathVariable("catalogueId") int catalogueId,
+	public ResponseEntity<Catalogue> attach2CompCatalogue(@PathVariable("catalogueId") int catalogueId,
 			@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {
-		return catalogueService.attach(catalogueId, productId);
+		return catalogueService.attachProduct(catalogueId, productId);
 	}
 
 	@SuppressWarnings("unused")
@@ -195,9 +195,9 @@ public class CatalogueController {
 			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000000"),
 			@HystrixProperty(name = "execution.timeout.enabled", value = "false") })
-	public ResponseEntity<Catalogue> detachFromCatalogue(@PathVariable("catalogueId") int catalogueId,
+	public ResponseEntity<Catalogue> detachCompFromCatalogue(@PathVariable("catalogueId") int catalogueId,
 			@PathVariable("productId") long productId, UriComponentsBuilder ucBuilder) {
-		return catalogueService.detach(catalogueId, productId);
+		return catalogueService.detachProduct(catalogueId, productId);
 	}
 
 	@SuppressWarnings("unused")

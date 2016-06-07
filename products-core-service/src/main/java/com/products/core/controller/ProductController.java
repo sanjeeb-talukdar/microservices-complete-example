@@ -32,7 +32,7 @@ public class ProductController {
 	private CatalogueRepository catalogueRepo;
 
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
-	public ResponseEntity<List<Product>> get(@RequestParam(name = "catalogue", required = false) String catalogue,
+	public ResponseEntity<List<Product>> getProduct(@RequestParam(name = "catalogue", required = false) String catalogue,
 			@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "tag", required = false) String tag,
 			@RequestParam(name = "description", required = false) String description) {
@@ -73,7 +73,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.POST)
-	public ResponseEntity<Void> create(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<Void> createProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
 		if (product != null && product.getName() != null && !"".equals(product.getName().trim())) {
 			product = productRepo.save(product);
 			HttpHeaders headers = new HttpHeaders();
@@ -85,7 +85,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Product> findById(@PathVariable("id") long id) {
+	public ResponseEntity<Product> findByProductId(@PathVariable("id") long id) {
 		Product product = productRepo.findOne(id);
 		if (product == null) {
 			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
@@ -94,7 +94,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Product> update(@PathVariable("id") long id, @RequestBody Product cat) {
+	public ResponseEntity<Product> updateProduct(@PathVariable("id") long id, @RequestBody Product cat) {
 		Product product = productRepo.findOne(id);
 		if (product == null) {
 			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
@@ -110,7 +110,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/{id}/associate/{catId}", method = RequestMethod.PUT)
-	public ResponseEntity<Product> update(@PathVariable("id") long id, @PathVariable("id") int catId) {
+	public ResponseEntity<Product> updateProduct(@PathVariable("id") long id, @PathVariable("id") int catId) {
 		Product product = productRepo.findOne(id);
 		if (product == null) {
 			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
@@ -129,7 +129,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Product> delete(@PathVariable("id") long id) {
+	public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
 		Product cat = productRepo.findOne(id);
 		if (cat == null) {
 			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
